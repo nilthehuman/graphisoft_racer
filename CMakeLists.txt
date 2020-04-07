@@ -2,4 +2,4 @@
 
 project(graphisoft_racer)
 
-add_executable(graphisoft_racer main.cpp)
+add_executable(graphisoft_racer car.cpp map.cpp main.cpp)
