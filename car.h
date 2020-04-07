@@ -63,21 +63,11 @@ namespace sampleDrivingStrategies {
 
     class NullStrategy : public IDrivingStrategy
     {
-        virtual DrivingAction run(const Car&)
-        {
-            return DrivingAction::KeepGoing;
-        }
+        virtual DrivingAction run(const Car&) override;
     };
 
     class ManiacStrategy : public IDrivingStrategy
     {
-        virtual DrivingAction run(const Car& car)
-        {
-            if (car.mPosition.mX < 1000)
-            {
-                return DrivingAction::Accelerate;
-            }
-            return DrivingAction::KeepGoing;
-        }
+        virtual DrivingAction run(const Car& car) override;
     };
 }

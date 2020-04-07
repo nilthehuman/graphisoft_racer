@@ -5,7 +5,7 @@
 // A pair of continuous Cartesian coordinates on a Euclidean plane
 struct Vector2D
 {
-    double length()
+    double length() const
     {
         return sqrt(mX * mX + mY * mY);
     };
