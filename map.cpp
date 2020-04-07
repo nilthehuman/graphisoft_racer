@@ -9,4 +9,4 @@ void Map::addCar(Car* car)
     mCar = car;
 }
 
-Map sampleMaps::empty({}, Map::FinishLine{ {{0, 0, Surface::Track}}, {1, 0} });
+Map sampleMaps::empty({}, Map::FinishLine{ {{0, 0}}, {1, 0} });
