@@ -17,7 +17,7 @@ class Car;
 class IDrivingStrategy
 {
 public:
-    virtual DrivingAction run(const Car& car) = 0;
+    virtual DrivingAction run(const Car& car) const = 0;
 };
 
 namespace sampleDrivingStrategies {
@@ -32,7 +32,7 @@ public:
     // Spawns a new car standing on the finish line
     Car(Map& map, const IDrivingStrategy* strategy);
 
-    void drive() { /*TODO implement*/ }
+    void drive();
 
 private:
     void accelerate() { /*TODO implement*/ }
@@ -41,6 +41,7 @@ private:
     void steerRight() { /*TODO implement*/ }
 
     void moveOnSurface(Surface surface) { /*TODO implement*/ }
+    void checkFinishLine() { /*TODO implement*/ }
 
 private:
     const Map& mMap;
@@ -63,11 +64,11 @@ namespace sampleDrivingStrategies {
 
     class NullStrategy : public IDrivingStrategy
     {
-        virtual DrivingAction run(const Car&) override;
+        virtual DrivingAction run(const Car&) const override;
     };
 
     class ManiacStrategy : public IDrivingStrategy
     {
-        virtual DrivingAction run(const Car& car) override;
+        virtual DrivingAction run(const Car& car) const override;
     };
 }
