@@ -5,10 +5,20 @@
 // A pair of continuous Cartesian coordinates on a Euclidean plane
 struct Vector2D
 {
-    double length() const
-    {
-        return sqrt(mX * mX + mY * mY);
-    };
+    double length() const;
+    Vector2D normalized() const;
+
+    Vector2D operator+(const Vector2D& other) const;
+    Vector2D operator-(const Vector2D& other) const;
+
+    Vector2D& operator+=(const Vector2D& other);
+    Vector2D& operator-=(const Vector2D& other);
+
+    Vector2D operator*(double scale) const;
+    Vector2D operator/(double scale) const;
+
+    Vector2D& operator*=(double scale);
+    Vector2D& operator/=(double scale);
 
     double mX, mY;
 };
@@ -43,6 +53,7 @@ struct Map
     Map(const std::vector<Square>& squares, const FinishLine& finishLine) : mFinishLine(finishLine), mSquares(squares) {}
 
     void addCar(Car* car);
+    Surface operator[](const Vector2D& position) const;
 
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface
     const FinishLine mFinishLine;
