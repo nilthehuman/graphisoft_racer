@@ -2,14 +2,14 @@
 
 #include <cassert>
 
-Car::Car(Map& map, const IDrivingStrategy* strategy) : mMap(map), mStrategy(strategy)
+Car::Car(Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
 {
     map.addCar(this);
 }
 
 void Car::drive()
 {
-    const DrivingAction action = mStrategy->run(*this);
+    const DrivingAction action = mStrategy.run(*this);
     switch (action)
     {
     case DrivingAction::KeepGoing:

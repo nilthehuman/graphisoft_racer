@@ -6,7 +6,7 @@
 int main()
 {
     Map& map = sampleMaps::empty;
-    Car myCar(map, new sampleDrivingStrategies::NullStrategy);
+    Car myCar(map, sampleDrivingStrategies::NullStrategy());
     myCar.drive();
 
     return 0;

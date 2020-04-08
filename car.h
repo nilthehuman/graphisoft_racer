@@ -30,7 +30,7 @@ class Car
 {
 public:
     // Spawns a new car standing on the finish line
-    Car(Map& map, const IDrivingStrategy* strategy);
+    Car(Map& map, const IDrivingStrategy& strategy);
 
     void drive();
 
@@ -45,7 +45,7 @@ private:
 
 private:
     const Map& mMap;
-    const IDrivingStrategy* mStrategy;
+    const IDrivingStrategy& mStrategy;
 
     Vector2D mPosition;
     Vector2D mVelocity;
