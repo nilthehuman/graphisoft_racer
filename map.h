@@ -48,7 +48,7 @@ struct Map
     struct FinishLine
     {
         const std::vector<Vector2D> mSquares;
-        Vector2D mDirection; // You may only reach the finish line at a positive dot product with this vector
+        const Vector2D mDirection; // You may only reach the finish line at a positive dot product with this vector
     };
 
     Map(const std::vector<Square>& squares, const FinishLine& finishLine) : mFinishLine(finishLine), mSquares(squares) {}
