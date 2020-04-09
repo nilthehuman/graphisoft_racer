@@ -32,7 +32,7 @@ void Car::drive()
         assert(false);
     }
 
-    ++mTime;
+    ++mCurrentLapTime;
 
     const Vector2D dir = mVelocity.normalized();
     const double speed = mVelocity.length();
@@ -43,20 +43,56 @@ void Car::drive()
         const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
         if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
         {
+            // Just entered a new square
             topLeftCorner = newTopLeftCorner;
             const Surface& surface = mMap[mPosition];
-            moveOnSurface(surface);
-            checkFinishLine();
+            if (!moveOnSurface(surface))
+            {
+                // Hit a wall and bounced back, don't go any further
+                return;
+            }
+            mPrevSquare = mPosition;
         }
     }
+    // Apply the last little bit of velocity
     mPosition += mVelocity - (dir * (unsigned)speed);
     const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
     if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
     {
         const Surface& arrivalSurface = mMap[mPosition];
         moveOnSurface(arrivalSurface);
-        checkFinishLine();
     }
+}
+
+bool Car::moveOnSurface(Surface surface)
+{
+    switch (surface)
+    {
+    case Surface::Gravel:
+        decelerate();
+        // Attention: intentional fallthrough!
+    case Surface::Track:
+        if (mMap[mPrevSquare] == Surface::FinishLine)
+        {
+            mLeftFinishLine = true;
+        }
+        return true;
+    case Surface::Wall:
+        bounceBack();
+        return false;
+    case Surface::FinishLine:
+        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mVelocity * mMap.mDirection)
+        {
+            // Wheeee!
+            mLapTimes.emplace_back(mCurrentLapTime);
+            mCurrentLapTime = 0;
+            mLeftFinishLine = false;
+        }
+        return true;
+    default:
+        assert(false);
+    }
+    return true;
 }
 
 // TODO: implement the remaining Car member function definitions

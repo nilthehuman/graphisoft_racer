@@ -26,6 +26,11 @@ Vector2D Vector2D::operator-(const Vector2D& other) const
     return { mX - other.mX, mY - other.mY };
 }
 
+double Vector2D::operator*(const Vector2D& other) const
+{
+    return mX * other.mX + mY * other.mY;
+}
+
 Vector2D& Vector2D::operator+=(const Vector2D& other)
 {
     mX += other.mX;
@@ -114,6 +119,7 @@ void Map::addCar(Car* car) const
 {
     const auto finishSquare = std::find_if(mSquares.cbegin(), mSquares.cend(), [](const Square& square) { return square.mSurface == Surface::FinishLine; });
     assert(finishSquare != mSquares.cend());
+    car->mPrevSquare = { finishSquare->mX, finishSquare->mY };
     car->mPosition = { finishSquare->mX, finishSquare->mY };
     car->mVelocity = { 0, 0 };
     const_cast< Map& >(*this).mCar = car;

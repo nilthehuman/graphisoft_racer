@@ -21,21 +21,23 @@ public:
 private:
     void accelerate() { /*TODO implement*/ }
     void decelerate() { /*TODO implement*/ }
+    void bounceBack() { /*TODO implement*/ }
     void steerLeft() { /*TODO implement*/ }
     void steerRight() { /*TODO implement*/ }
 
-    void moveOnSurface(Surface surface) { /*TODO implement*/ }
-    void checkFinishLine() { /*TODO implement*/ }
+    bool moveOnSurface(Surface surface); // false means you hit a wall
 
 private:
     const Map& mMap;
     const IDrivingStrategy& mStrategy;
 
+    Vector2D mPrevSquare; // The last square the Car passed through, _not_ its position in the last round!
     Vector2D mPosition;
     Vector2D mVelocity;
 
-    unsigned mTime; // Number of rounds elapsed since the start of the race
-    unsigned mLaps; // Number of completed laps so far
+    unsigned mCurrentLapTime; // Number of rounds elapsed since the start of the latest lap
+    std::vector<unsigned> mLapTimes; // Number of rounds each lap was completed in
+    bool mLeftFinishLine; // Make sure we don't count standing on the finish line as several laps
 
     friend void Map::addCar(Car*) const;
     friend class sampleDrivingStrategies::NullStrategy;
