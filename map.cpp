@@ -112,7 +112,7 @@ void Map::addCar(Car* car) const
 {
     car->mPosition = mFinishLine.mSquares[0];
     car->mVelocity = { 0, 0 };
-    const_cast<Map&>(*this).mCar = car;
+    const_cast< Map& >(*this).mCar = car;
 }
 
 Surface Map::operator[](const Vector2D& position) const

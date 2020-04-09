@@ -1,5 +1,7 @@
 #include "car.h"
 
+#include "driving.h"
+
 #include <cassert>
 
 Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
@@ -58,17 +60,3 @@ void Car::drive()
 }
 
 // TODO: implement the remaining Car member function definitions
-
-DrivingAction sampleDrivingStrategies::NullStrategy::run(const Car&) const
-{
-    return DrivingAction::KeepGoing;
-};
-
-DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
-{
-    if (car.mVelocity.length() < 1000)
-    {
-        return DrivingAction::Accelerate;
-    }
-    return DrivingAction::KeepGoing;
-};
