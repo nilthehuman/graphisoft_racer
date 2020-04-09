@@ -54,7 +54,7 @@ struct Map
     Map(const std::vector<Square>& squares, const FinishLine& finishLine) : mFinishLine(finishLine), mSquares(squares) {}
 	Map(std::istream& stream);
 
-    void addCar(Car* car);
+    void addCar(Car* car) const;
     Surface operator[](const Vector2D& position) const;
 
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface

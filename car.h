@@ -30,7 +30,7 @@ class Car
 {
 public:
     // Spawns a new car standing on the finish line
-    Car(Map& map, const IDrivingStrategy& strategy);
+    Car(const Map& map, const IDrivingStrategy& strategy);
 
     void drive();
 
@@ -53,7 +53,7 @@ private:
     unsigned mTime; // Number of rounds elapsed since the start of the race
     unsigned mLaps; // Number of completed laps so far
 
-    friend void Map::addCar(Car*);
+    friend void Map::addCar(Car*) const;
     friend class sampleDrivingStrategies::NullStrategy;
     friend class sampleDrivingStrategies::ManiacStrategy;
 };
