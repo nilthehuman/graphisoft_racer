@@ -128,5 +128,3 @@ Surface Map::operator[](const Vector2D& position) const
     }
     return Surface::Track;
 }
-
-Map sampleMaps::empty({}, Map::FinishLine{ {{0, 0}}, {1, 0} });

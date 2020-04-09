@@ -64,12 +64,3 @@ struct Map
     const FinishLine mFinishLine;
     const Car* mCar; // Single player for now
 };
-
-// ======== Sample maps, wheeeeee! ========
-
-namespace sampleMaps {
-
-    // No walls, just a single square of finish line
-    extern Map empty;
-
-}
