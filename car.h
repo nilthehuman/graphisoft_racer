@@ -19,11 +19,13 @@ public:
     void drive();
 
 private:
-    void accelerate() { /*TODO implement*/ }
-    void decelerate() { /*TODO implement*/ }
-    void bounceBack() { /*TODO implement*/ }
-    void steerLeft() { /*TODO implement*/ }
-    void steerRight() { /*TODO implement*/ }
+    static constexpr double pi = 3.1415927;
+
+    void accelerate();
+    void decelerate();
+    void bounceBack();
+    void steerLeft();
+    void steerRight();
 
     bool moveOnSurface(Surface surface); // false means you hit a wall
 
@@ -33,7 +35,8 @@ private:
 
     Vector2D mPrevSquare; // The last square the Car passed through, _not_ its position in the last round!
     Vector2D mPosition;
-    Vector2D mVelocity;
+    Vector2D mDirection; // Take care to keep this normalized
+    double mSpeed;
 
     unsigned mCurrentLapTime; // Number of rounds elapsed since the start of the latest lap
     std::vector<unsigned> mLapTimes; // Number of rounds each lap was completed in

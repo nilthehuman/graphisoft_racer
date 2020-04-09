@@ -2,7 +2,9 @@
 
 #include "driving.h"
 
+#include <algorithm>
 #include <cassert>
+#include <cmath>
 
 Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
 {
@@ -34,12 +36,10 @@ void Car::drive()
 
     ++mCurrentLapTime;
 
-    const Vector2D dir = mVelocity.normalized();
-    const double speed = mVelocity.length();
     Vector2D topLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
-    for (size_t i = 1; i < speed; ++i)
+    for (size_t i = 1; i < mSpeed; ++i)
     {
-        mPosition += dir;
+        mPosition += mDirection;
         const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
         if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
         {
@@ -55,13 +55,50 @@ void Car::drive()
         }
     }
     // Apply the last little bit of velocity
-    mPosition += mVelocity - (dir * (unsigned)speed);
+    mPosition += mDirection * (mSpeed - (unsigned)mSpeed);
     const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
     if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
     {
         const Surface& arrivalSurface = mMap[mPosition];
         moveOnSurface(arrivalSurface);
     }
+}
+
+void Car::accelerate()
+{
+    mSpeed += 1;
+}
+
+void Car::decelerate()
+{
+    mSpeed -= 1;
+    mSpeed = std::max(0.0, mSpeed);
+}
+
+void Car::bounceBack()
+{
+    mPosition = mPrevSquare;
+    mSpeed = 0;
+}
+
+void Car::steerLeft()
+{
+    // Use an increment of 15 degrees, this can be tuned later
+    const double deltaRadian = pi * (15 / 180);
+    const double sine   = std::sin(deltaRadian);
+    const double cosine = std::cos(deltaRadian);
+    const double rotMatrix[2][2] = { {cosine, -sine}, {sine, cosine} };
+    mDirection = { mDirection.mX * rotMatrix[0][0] + mDirection.mY * rotMatrix[0][1], mDirection.mX * rotMatrix[1][0] + mDirection.mY * rotMatrix[1][1] };
+}
+
+void Car::steerRight()
+{
+    // Use an increment of 15 degrees, this can be tuned later
+    const double deltaRadian = pi * (15 / 180);
+    const double sine   = std::sin(deltaRadian);
+    const double cosine = std::cos(deltaRadian);
+    const double rotMatrix[2][2] = { {-cosine, sine}, {-sine, -cosine} };
+    mDirection = { mDirection.mX * rotMatrix[0][0] + mDirection.mY * rotMatrix[0][1], mDirection.mX * rotMatrix[1][0] + mDirection.mY * rotMatrix[1][1] };
 }
 
 bool Car::moveOnSurface(Surface surface)
@@ -72,7 +109,7 @@ bool Car::moveOnSurface(Surface surface)
         decelerate();
         // Attention: intentional fallthrough!
     case Surface::Track:
-        if (mMap[mPrevSquare] == Surface::FinishLine)
+        if (mMap[mPrevSquare] == Surface::FinishLine && mDirection * mMap.mDirection)
         {
             mLeftFinishLine = true;
         }
@@ -81,7 +118,7 @@ bool Car::moveOnSurface(Surface surface)
         bounceBack();
         return false;
     case Surface::FinishLine:
-        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mVelocity * mMap.mDirection)
+        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mDirection * mMap.mDirection)
         {
             // Wheeee!
             mLapTimes.emplace_back(mCurrentLapTime);

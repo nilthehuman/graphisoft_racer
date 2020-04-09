@@ -9,7 +9,7 @@ DrivingAction sampleDrivingStrategies::NullStrategy::run(const Car&) const
 
 DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
 {
-    if (car.mVelocity.length() < 1000)
+    if (car.mSpeed < 1000)
     {
         return DrivingAction::Accelerate;
     }

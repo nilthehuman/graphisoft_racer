@@ -121,7 +121,8 @@ void Map::addCar(Car* car) const
     assert(finishSquare != mSquares.cend());
     car->mPrevSquare = { finishSquare->mX, finishSquare->mY };
     car->mPosition = { finishSquare->mX, finishSquare->mY };
-    car->mVelocity = { 0, 0 };
+    car->mDirection = mDirection;
+    car->mSpeed = 0;
     const_cast< Map& >(*this).mCar = car;
 }
 
