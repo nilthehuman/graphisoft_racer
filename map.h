@@ -1,5 +1,6 @@
 #pragma once
 
+#include <istream>
 #include <vector>
 
 // A pair of continuous Cartesian coordinates on a Euclidean plane
@@ -51,13 +52,14 @@ struct Map
     };
 
     Map(const std::vector<Square>& squares, const FinishLine& finishLine) : mFinishLine(finishLine), mSquares(squares) {}
+	Map(std::istream& stream);
 
     void addCar(Car* car);
     Surface operator[](const Vector2D& position) const;
 
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface
     const FinishLine mFinishLine;
-    const Car* mCar; // Single player for the time being
+    const Car* mCar; // Single player for now
 };
 
 // ======== Sample maps, wheeeeee! ========

@@ -2,10 +2,12 @@
 #include "map.h"
 
 #include <iostream>
+#include <fstream>
 
 int main()
 {
-    Map& map = sampleMaps::empty;
+    std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map");
+    const Map map(mapStream);
     Car myCar(map, sampleDrivingStrategies::NullStrategy());
     myCar.drive();
 
