@@ -65,6 +65,8 @@ Vector2D& Vector2D::operator/=(double scale)
 
 Map::Map(std::istream& stream)
 {
+    const_cast< Vector2D& >(mFinishLine.mDirection) = { 0, -1 }; // Points upward
+
     assert(stream.good());
     size_t mapWidth, mapHeight;
     stream >> mapWidth;
@@ -94,6 +96,9 @@ Map::Map(std::istream& stream)
             case 'X':
                 // y axis points downward, maybe flip it later
                 const_cast< std::vector<Square>& >(mSquares).emplace_back((double)x, (double)y, Surface::Wall);
+                break;
+            case '=':
+                const_cast< std::vector<Vector2D>& >(mFinishLine.mSquares).emplace_back((double)x, (double)y);
                 break;
             default:
                 // Unknown surface

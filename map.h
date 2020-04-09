@@ -6,6 +6,9 @@
 // A pair of continuous Cartesian coordinates on a Euclidean plane
 struct Vector2D
 {
+    Vector2D() : mX(0), mY(0) {}
+    Vector2D(double x, double y) : mX(x), mY(y) {}
+
     double length() const;
     Vector2D normalized() const;
 
