@@ -33,7 +33,8 @@ enum class Surface
 {
     Track, // <- This is the default
     Gravel,
-    Wall
+    Wall,
+    FinishLine // Note that a FinishLine Square is implicitly taken to be a Track Square as well
 };
 
 // A 1x1 square shaped element of the map, centered around (mX, mY)
@@ -48,19 +49,13 @@ class Car;
 
 struct Map
 {
-    struct FinishLine
-    {
-        const std::vector<Vector2D> mSquares;
-        const Vector2D mDirection; // You may only reach the finish line at a positive dot product with this vector
-    };
-
-    Map(const std::vector<Square>& squares, const FinishLine& finishLine) : mFinishLine(finishLine), mSquares(squares) {}
+    Map(const std::vector<Square>& squares) : mSquares(squares) {}
 	Map(std::istream& stream);
 
     void addCar(Car* car) const;
     Surface operator[](const Vector2D& position) const;
 
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface
-    const FinishLine mFinishLine;
+    const Vector2D mDirection; // You may only reach the finish line at a positive dot product with this vector
     const Car* mCar; // Single player for now
 };

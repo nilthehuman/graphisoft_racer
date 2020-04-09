@@ -2,6 +2,7 @@
 
 #include "car.h"
 
+#include <algorithm>
 #include <cassert>
 
 double Vector2D::length() const
@@ -65,7 +66,7 @@ Vector2D& Vector2D::operator/=(double scale)
 
 Map::Map(std::istream& stream)
 {
-    const_cast< Vector2D& >(mFinishLine.mDirection) = { 0, -1 }; // Points upward
+    const_cast< Vector2D& >(mDirection) = { 0, -1 }; // Points upward
 
     assert(stream.good());
     size_t mapWidth, mapHeight;
@@ -84,33 +85,36 @@ Map::Map(std::istream& stream)
                 assert(false);
                 return;
             }
+            Surface surface;
             switch (char c = stream.get())
             {
             case ' ':
                 // Track Squares need not be represented explicitly, see comment at Map::mSquares
-                break;
+                continue;
             case '.':
-                // y axis points downward, maybe flip it later
-                const_cast< std::vector<Square>& >(mSquares).emplace_back((double)x, (double)y, Surface::Gravel);
+                surface = Surface::Gravel;
                 break;
             case 'X':
-                // y axis points downward, maybe flip it later
-                const_cast< std::vector<Square>& >(mSquares).emplace_back((double)x, (double)y, Surface::Wall);
+                surface = Surface::Wall;
                 break;
             case '=':
-                const_cast< std::vector<Vector2D>& >(mFinishLine.mSquares).emplace_back((double)x, (double)y);
+                surface = Surface::FinishLine;
                 break;
             default:
                 // Unknown surface
                 assert(false);
             }
+            // y axis points downward, maybe flip it later
+            const_cast< std::vector<Square>& >(mSquares).emplace_back( (double)x, (double)y, surface );
         }
     }
 }
 
 void Map::addCar(Car* car) const
 {
-    car->mPosition = mFinishLine.mSquares[0];
+    const auto finishSquare = std::find_if(mSquares.cbegin(), mSquares.cend(), [](const Square& square) { return square.mSurface == Surface::FinishLine; });
+    assert(finishSquare != mSquares.cend());
+    car->mPosition = { finishSquare->mX, finishSquare->mY };
     car->mVelocity = { 0, 0 };
     const_cast< Map& >(*this).mCar = car;
 }
