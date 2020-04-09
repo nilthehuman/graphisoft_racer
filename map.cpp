@@ -72,6 +72,7 @@ Map::Map(std::istream& stream)
     stream >> mapHeight;
     for (size_t y = 0; y < mapHeight; ++y)
     {
+        stream.ignore(256, '\n');
         // Scan current line character by character
         for (size_t x = 0; x < mapWidth; ++x)
         {
@@ -81,21 +82,22 @@ Map::Map(std::istream& stream)
                 assert(false);
                 return;
             }
-            char c;
-            stream >> c;
-            if (c == ' ')
+            switch (char c = stream.get())
             {
+            case ' ':
                 // Track Squares need not be represented explicitly, see comment at Map::mSquares
-            }
-            else if (c == '.')
-            {
+                break;
+            case '.':
                 // y axis points downward, maybe flip it later
                 const_cast< std::vector<Square>& >(mSquares).emplace_back((double)x, (double)y, Surface::Gravel);
-            }
-            else if (c == 'X')
-            {
+                break;
+            case 'X':
                 // y axis points downward, maybe flip it later
                 const_cast< std::vector<Square>& >(mSquares).emplace_back((double)x, (double)y, Surface::Wall);
+                break;
+            default:
+                // Unknown surface
+                assert(false);
             }
         }
     }
