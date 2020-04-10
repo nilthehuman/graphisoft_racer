@@ -187,8 +187,11 @@ void Race::raceWithUI(Car& car) const
     {
         if (car.drive())
         {
-            std::cout << "Your car has finished the race!" << std::endl;
-            std::getchar();
+            std::cout << "Congratulations! Your car has finished the race!" << std::endl;
+            std::cout << "Please type Q to quit." << std::endl;
+            std::cout << "> ";
+            char input;
+            while ((input = std::getchar()) != 'q' && input != 'Q');
             return;
         }
         system("cls");

@@ -16,7 +16,7 @@ int main()
 
     std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map");
     const Map map(mapStream);
-    const Race race(map, 10, 10);
+    const Race race(map, 10, 1000);
     IDrivingStrategy::sSelectedRace = &race;
     Car myCar(race, sampleDrivingStrategies::CircleStrategy(), 'A');
     race.raceWithUI(myCar);
