@@ -27,7 +27,7 @@ public:
     virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override = 0;
 
     // This function is responsible for the actual driving logic
-    virtual DrivingAction run(const Car& car) const = 0;
+    virtual DrivingAction drive(const Car& car) const = 0;
 };
 
 // ======== Sample drivers, wheeeeee! ========
@@ -40,7 +40,7 @@ namespace sampleDrivers {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
-        virtual DrivingAction run(const Car&) const override;
+        virtual DrivingAction drive(const Car&) const override;
     };
 
     // This one just steps on the gas until it crashes
@@ -49,7 +49,7 @@ namespace sampleDrivers {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
-        virtual DrivingAction run(const Car& car) const override;
+        virtual DrivingAction drive(const Car& car) const override;
 
     private:
         double mMaxSpeed;
@@ -61,6 +61,6 @@ namespace sampleDrivers {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
-        virtual DrivingAction run(const Car&) const override;
+        virtual DrivingAction drive(const Car&) const override;
     };
 }

@@ -27,7 +27,7 @@ bool Car::drive()
 
     mTrajectory.push_back(mPosition);
 
-    const DrivingAction action = mDriver.run(*this);
+    const DrivingAction action = mDriver.drive(*this);
     switch (action)
     {
     case DrivingAction::KeepGoing:

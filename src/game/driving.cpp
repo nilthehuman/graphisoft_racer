@@ -24,7 +24,7 @@ genetic::IOrganism* sampleDrivers::NullDriver::spawn(const genetic::Genome& car)
     return new NullDriver;
 }
 
-DrivingAction sampleDrivers::NullDriver::run(const Car&) const
+DrivingAction sampleDrivers::NullDriver::drive(const Car&) const
 {
     return DrivingAction::KeepGoing;
 };
@@ -37,7 +37,7 @@ genetic::IOrganism* sampleDrivers::ManiacDriver::spawn(const genetic::Genome& ge
     return driver;
 }
 
-DrivingAction sampleDrivers::ManiacDriver::run(const Car& car) const
+DrivingAction sampleDrivers::ManiacDriver::drive(const Car& car) const
 {
     if (car.mSpeed < mMaxSpeed)
     {
@@ -52,7 +52,7 @@ genetic::IOrganism* sampleDrivers::CircleDriver::spawn(const genetic::Genome& ge
     return new CircleDriver;
 }
 
-DrivingAction sampleDrivers::CircleDriver::run(const Car& car) const
+DrivingAction sampleDrivers::CircleDriver::drive(const Car& car) const
 {
     // Prefer using the Car's state to keeping a bool in this class
     if (car.mSpeed < 0.001)
