@@ -4,9 +4,14 @@
 
 #include <algorithm>
 #include <cassert>
+#include <ostream>
 
-Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
+Car::Car(const Map& map, const IDrivingStrategy& strategy, char icon)
+    : mMap(map)
+    , mStrategy(strategy)
+    , mIcon(icon)
 {
+    assert(icon != ' ' && icon != '.' && icon != 'X' && icon != '=');
     map.addCar(this);
 }
 
@@ -126,4 +131,15 @@ bool Car::moveOnSurface(Surface surface)
     return true;
 }
 
-// TODO: implement the remaining Car member function definitions
+std::ostream& operator<<(std::ostream& stream, const Car& car)
+{
+    // Print useful debug info
+    stream << "Car '" << car.mIcon
+        << "': Lap " << car.mLapTimes.size() + 1
+        << ", Laptime: " << car.mCurrentLapTime
+        << ", Position: " << car.mPosition
+        << ", Direction: " << car.mDirection
+        << ", Speed: " << car.mSpeed
+        << std::endl;
+    return stream;
+}

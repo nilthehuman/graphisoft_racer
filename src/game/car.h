@@ -36,6 +36,7 @@ class Car
 {
 public:
     // Spawns a new car standing on the finish line
+    Car(const Map& map, const IDrivingStrategy& strategy, char icon = '0');
     Car(const Map& map, const IDrivingStrategy& strategy);
 
     void drive();
@@ -53,6 +54,8 @@ private:
     const Map& mMap;
     const IDrivingStrategy& mStrategy;
 
+    const char mIcon; // The Car will appear as this character on the UI
+
     Vector2D mPrevSquare; // The last square the Car passed through, _not_ its position in the last round!
     Vector2D mPosition;
     Vector2D mDirection; // Take care to keep this normalized
@@ -64,6 +67,8 @@ private:
     bool mLeftFinishLine = false; // Make sure we don't count standing on the finish line as several laps
 
     friend void Map::addCar(Car*) const;
+    friend std::ostream& operator<<(std::ostream&, const Map&);
+    friend std::ostream& operator<<(std::ostream&, const Car&);
     friend void unitTests::CarTests::createCar();
     friend void unitTests::CarTests::throttleAndBrake();
     friend void unitTests::CarTests::steer();
@@ -74,3 +79,5 @@ private:
     friend class sampleDrivingStrategies::ManiacStrategy;
     friend class sampleDrivingStrategies::CircleStrategy;
 };
+
+std::ostream& operator<<(std::ostream&, const Car&);
