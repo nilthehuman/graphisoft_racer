@@ -37,6 +37,7 @@ class Car
 public:
     // Spawns a new car standing on the finish line
     Car(const Map& map, const IDrivingStrategy& strategy, char icon = '0');
+    Car(const Map& map, const IDrivingStrategy& strategy);
 
     void drive();
 

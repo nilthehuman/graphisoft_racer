@@ -28,7 +28,7 @@ class Car;
 struct Map
 {
     Map(const std::vector<Square>& squares);
-	Map(std::istream& stream);
+    Map(std::istream& stream);
 
     void addCar(Car* car) const;
     Surface operator[](const Vector2D& position) const;
