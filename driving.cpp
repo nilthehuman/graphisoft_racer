@@ -15,3 +15,14 @@ DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
     }
     return DrivingAction::KeepGoing;
 };
+
+DrivingAction sampleDrivingStrategies::CircleStrategy::run(const Car& car) const
+{
+    // Prefer using the Car's state to keeping a bool in this class
+    if (car.mSpeed < 0.001)
+    {
+        return DrivingAction::Accelerate;
+    }
+    // Steer right forever
+    return DrivingAction::SteerRight;
+};

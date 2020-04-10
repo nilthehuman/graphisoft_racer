@@ -31,4 +31,9 @@ namespace sampleDrivingStrategies {
     {
         virtual DrivingAction run(const Car& car) const override;
     };
+
+    class CircleStrategy : public IDrivingStrategy
+    {
+        virtual DrivingAction run(const Car&) const override;
+    };
 }

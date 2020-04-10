@@ -7,6 +7,7 @@ class IDrivingStrategy;
 namespace sampleDrivingStrategies {
     class NullStrategy;
     class ManiacStrategy;
+    class CircleStrategy;
 }
 
 // This is your avatar in the game world. It also implements most of the game logic
@@ -45,4 +46,5 @@ private:
     friend void Map::addCar(Car*) const;
     friend class sampleDrivingStrategies::NullStrategy;
     friend class sampleDrivingStrategies::ManiacStrategy;
+    friend class sampleDrivingStrategies::CircleStrategy;
 };
