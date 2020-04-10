@@ -6,10 +6,11 @@
 #include <iostream>
 #include <stdlib.h>
 
-Race::Race(const Map& map, size_t laps, size_t timeout)
+Race::Race(const Map& map, size_t laps, size_t timeout, size_t position)
     : mMap(map)
     , mLaps(laps)
     , mTimeout(timeout)
+    , mPosition(position)
 {
 }
 
