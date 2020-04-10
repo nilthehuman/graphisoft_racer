@@ -322,10 +322,34 @@ namespace componentTests
         assert(car.mLeftFinishLine);
     }
 
+    void winningOnAnEmptyMap()
+    {
+        std::ifstream mapStream(emptyMapFilePath);
+        const Map emptyMap(mapStream);
+        const Race race(emptyMap, 1, 1000);
+        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
+        Car car(race, circleStrategy);
+        race.race(car);
+        assert(car.getRaceTime() < 25);
+    }
+
+    void timoutOnDoughnutMap()
+    {
+        std::ifstream mapStream(doughnutMapFilePath);
+        const Map emptyMap(mapStream);
+        const Race race(emptyMap, 10, 1000);
+        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
+        Car car(race, circleStrategy);
+        race.race(car);
+        assert(car.getRaceTime() == race.mTimeout);
+    }
+
     void runAll()
     {
         staySafeStayHome();
         roundAndRoundOnAnEmptyMap();
         roundAndRoundOnDoughnutMap();
+        winningOnAnEmptyMap();
+        timoutOnDoughnutMap();
     }
 }
