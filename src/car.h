@@ -26,6 +26,7 @@ namespace componentTests
 {
     void staySafeStayHome();
     void roundAndRoundOnAnEmptyMap();
+    void roundAndRoundOnDoughnutMap();
 }
 
 // ======== Here comes the real stuff ========
@@ -68,6 +69,7 @@ private:
     friend void unitTests::CarTests::steer();
     friend void componentTests::staySafeStayHome();
     friend void componentTests::roundAndRoundOnAnEmptyMap();
+    friend void componentTests::roundAndRoundOnDoughnutMap();
     friend class sampleDrivingStrategies::NullStrategy;
     friend class sampleDrivingStrategies::ManiacStrategy;
     friend class sampleDrivingStrategies::CircleStrategy;

@@ -297,9 +297,29 @@ namespace componentTests
         assert(!car.mLeftFinishLine);
     }
 
+    void roundAndRoundOnDoughnutMap()
+    {
+        std::ifstream mapStream(doughnutMapFilePath);
+        const Map emptyMap(mapStream);
+        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
+        Car car(emptyMap, circleStrategy);
+        // Keep steering right with speed == 1
+        for (size_t i = 0; i < 24; ++i)
+        {
+            car.drive();
+        }
+        // Gets stuck against the wall at (9, 12)
+        assert(car.mPrevSquare.rounded() == Vector2D(8, 13));
+        assert(car.mPosition  .rounded() == Vector2D(8, 13));
+        assert(car.mCurrentLapTime == 24);
+        assert(car.mLapTimes.empty());
+        assert(car.mLeftFinishLine);
+    }
+
     void runAll()
     {
         staySafeStayHome();
         roundAndRoundOnAnEmptyMap();
+        roundAndRoundOnDoughnutMap();
     }
 }
