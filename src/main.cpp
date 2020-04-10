@@ -1,6 +1,7 @@
 #include "game/car.h"
 #include "game/driving.h"
 #include "game/map.h"
+#include "game/race.h"
 #include "../test/test.h"
 
 #include <fstream>

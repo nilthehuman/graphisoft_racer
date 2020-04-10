@@ -1,6 +1,7 @@
 #pragma once
 
 #include "map.h"
+#include "race.h"
 
 // ======== Necessary predeclarations ========
 
