@@ -3,12 +3,12 @@
 #include "car.h"
 #include "driving.h"
 #include "map.h"
+#include "vector.h"
 
 #include <cassert>
+#include <cmath>
 #include <fstream>
 #include <vector>
-
-constexpr double epsilon = 0.0001;
 
 // ======== Unit tests ========
 
@@ -16,7 +16,77 @@ namespace unitTests
 {
     namespace Vector2DTests
     {
+        void equalityAfterAddition()
+        {
+            Vector2D vec(0, -1);
+            assert(vec == vec);
+            Vector2D sumVec(0, 0);
+            sumVec += Vector2D( 30, -2);
+            sumVec += Vector2D(-30, 1);
+            assert(vec == sumVec);
+            sumVec = Vector2D(30, -2) + Vector2D(-30, 1);
+            assert(vec == sumVec);
+        }
 
+        void equalityAfterSubtraction()
+        {
+            Vector2D vec(0, -1);
+            assert(vec == vec);
+            Vector2D diffVec;
+            diffVec += Vector2D(30, -2);
+            diffVec -= Vector2D(30, -1);
+            assert(vec == diffVec);
+            diffVec = Vector2D(30, -2) - Vector2D(30, -1);
+            assert(vec == diffVec);
+        }
+
+        void lengthGrowsLinearly()
+        {
+            Vector2D vec(1, 1);
+            assert(vec.length() == sqrt(2));
+            vec *= 2;
+            assert(vec.length() == 2*sqrt(2));
+            vec *= 5;
+            assert(vec.length() == 10*sqrt(2));
+            vec /= 20;
+            assert(vec.length() == 0.5*sqrt(2));
+        }
+
+        void normalizationDoesNotChangeDirection()
+        {
+            Vector2D vec(25, 44.4);
+            Vector2D normal = vec.normalized();
+            assert(std::abs(normal.length() - 1) < epsilon);
+            assert(std::abs(vec * normal - vec.length() * normal.length()) < epsilon);
+        }
+
+        void rotatesCancelOut()
+        {
+            Vector2D vec(0, -1);
+            vec.rotate(120);
+            vec.rotate(-30);
+            vec.rotate(-90);
+            assert(vec == Vector2D(0, -1));
+        }
+
+        void rotateBackAround()
+        {
+            Vector2D vec(0, -1);
+            vec.rotate(120);
+            vec.rotate(120);
+            vec.rotate(120);
+            assert(vec == Vector2D(0, -1));
+        }
+
+        void runAll()
+        {
+            equalityAfterAddition();
+            equalityAfterSubtraction();
+            lengthGrowsLinearly();
+            normalizationDoesNotChangeDirection();
+            rotatesCancelOut();
+            rotateBackAround();
+        }
     }
 
     namespace MapTests
@@ -89,6 +159,7 @@ namespace unitTests
 
     void runAll()
     {
+        Vector2DTests::runAll();
         MapTests::runAll();
     }
 }
