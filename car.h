@@ -2,6 +2,8 @@
 
 #include "map.h"
 
+// ======== Necessary predeclarations ========
+
 class IDrivingStrategy;
 
 namespace sampleDrivingStrategies {
@@ -9,6 +11,18 @@ namespace sampleDrivingStrategies {
     class ManiacStrategy;
     class CircleStrategy;
 }
+
+namespace unitTests
+{
+    namespace CarTests
+    {
+        void createCar();
+        void throttleAndBrake();
+        void steer();
+    }
+}
+
+// ======== Here begins the real stuff ========
 
 // This is your avatar in the game world. It also implements most of the game logic
 class Car
@@ -42,6 +56,9 @@ private:
     bool mLeftFinishLine; // Make sure we don't count standing on the finish line as several laps
 
     friend void Map::addCar(Car*) const;
+    friend void unitTests::CarTests::createCar();
+    friend void unitTests::CarTests::throttleAndBrake();
+    friend void unitTests::CarTests::steer();
     friend class sampleDrivingStrategies::NullStrategy;
     friend class sampleDrivingStrategies::ManiacStrategy;
     friend class sampleDrivingStrategies::CircleStrategy;

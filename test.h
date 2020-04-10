@@ -157,10 +157,69 @@ namespace unitTests
         }
     }
 
+    namespace CarTests
+    {
+        void createCar()
+        {
+            const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
+            Car car(minimalMap, nullStrategy);
+            assert(car.mPrevSquare == Vector2D(0, 0));
+            assert(car.mPosition == Vector2D(0, 0));
+            assert(car.mDirection == minimalMap.mDirection);
+            assert(std::abs(car.mSpeed) < epsilon);
+        }
+
+        void throttleAndBrake()
+        {
+            const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
+            Car car(minimalMap, nullStrategy);
+            car.accelerate();
+            assert(std::abs(car.mSpeed - 1) < epsilon);
+            car.accelerate();
+            assert(std::abs(car.mSpeed - 2) < epsilon);
+            car.decelerate();
+            assert(std::abs(car.mSpeed - 1) < epsilon);
+            car.decelerate();
+            assert(std::abs(car.mSpeed - 0) < epsilon);
+        }
+
+        void steer()
+        {
+            const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
+            Car car(minimalMap, nullStrategy);
+            car.steerLeft();
+            car.steerRight();
+            assert(car.mDirection == minimalMap.mDirection);
+            // 6 * 15 = 90 degrees total
+            for (size_t i = 0; i < 6; ++i)
+            {
+                car.steerLeft();
+            }
+            assert(car.mDirection * minimalMap.mDirection < epsilon);
+            // 12 * (-15) = -180 degrees total
+            for (size_t i = 0; i < 12; ++i)
+            {
+                car.steerRight();
+            }
+            assert(car.mDirection * minimalMap.mDirection < epsilon);
+        }
+
+        void runAll()
+        {
+            createCar();
+            throttleAndBrake();
+            steer();
+        }
+    }
+
     void runAll()
     {
         Vector2DTests::runAll();
         MapTests::runAll();
+        CarTests::runAll();
     }
 }
 
