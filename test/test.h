@@ -126,7 +126,7 @@ namespace unitTests
                 assert(mapFromSquares[Vector2D((double)i, 0.25)] == Surface::FinishLine);
                 assert(mapFromSquares[Vector2D((double)i, 1)] == Surface::Track);
             }
-            assert(mapFromSquares.mDirection == Vector2D(0, 1));
+            assert(mapFromSquares.mFinishLineDirection == Vector2D(0, 1));
 
             Map mapFromMap(mapFromSquares.mSquares);
             assert(mapFromMap.mSquares.size() == 4);
@@ -139,7 +139,7 @@ namespace unitTests
                 assert(mapFromMap[Vector2D((double)i, 0.25)] == Surface::FinishLine);
                 assert(mapFromMap[Vector2D((double)i, 1)] == Surface::Track);
             }
-            assert(mapFromMap.mDirection == Vector2D(0, 1));
+            assert(mapFromMap.mFinishLineDirection == Vector2D(0, 1));
         }
 
         void loadEmptyMapFromFile()
@@ -156,7 +156,7 @@ namespace unitTests
                 assert(mapFromFile[Vector2D((double)i, 0.25)] == Surface::FinishLine);
                 assert(mapFromFile[Vector2D((double)i, 1)] == Surface::Track);
             }
-            assert(mapFromFile.mDirection == Vector2D(0, 1));
+            assert(mapFromFile.mFinishLineDirection == Vector2D(0, 1));
         }
 
         void loadDoughnutMapFromFile()
@@ -168,7 +168,7 @@ namespace unitTests
             assert(mapFromFile[Vector2D(5, 6)] == Surface::Track);
             assert(mapFromFile[Vector2D(8, 13)] == Surface::Gravel);
             assert(mapFromFile[Vector2D(3, 9)] == Surface::FinishLine);
-            assert(mapFromFile.mDirection == Vector2D(0, 1));
+            assert(mapFromFile.mFinishLineDirection == Vector2D(0, 1));
         }
 
         void runAll()
@@ -188,7 +188,7 @@ namespace unitTests
             Car car(minimalMap, nullStrategy);
             assert(car.mPrevSquare == Vector2D(0, 0));
             assert(car.mPosition == Vector2D(0, 0));
-            assert(car.mDirection == minimalMap.mDirection);
+            assert(car.mDirection == minimalMap.mFinishLineDirection);
             assert(std::abs(car.mSpeed) < epsilon);
         }
 
@@ -214,19 +214,19 @@ namespace unitTests
             Car car(minimalMap, nullStrategy);
             car.steerLeft();
             car.steerRight();
-            assert(car.mDirection == minimalMap.mDirection);
+            assert(car.mDirection == minimalMap.mFinishLineDirection);
             // 6 * 15 = 90 degrees total
             for (size_t i = 0; i < 6; ++i)
             {
                 car.steerLeft();
             }
-            assert(car.mDirection * minimalMap.mDirection < epsilon);
+            assert(car.mDirection * minimalMap.mFinishLineDirection < epsilon);
             // 12 * (-15) = -180 degrees total
             for (size_t i = 0; i < 12; ++i)
             {
                 car.steerRight();
             }
-            assert(car.mDirection * minimalMap.mDirection < epsilon);
+            assert(car.mDirection * minimalMap.mFinishLineDirection < epsilon);
         }
 
         void runAll()
@@ -261,7 +261,7 @@ namespace componentTests
         car.drive();
         assert(car.mPrevSquare == Vector2D(0, 0));
         assert(car.mPosition == Vector2D(0, 0));
-        assert(car.mDirection == emptyMap.mDirection);
+        assert(car.mDirection == emptyMap.mFinishLineDirection);
         assert(std::abs(car.mSpeed) < epsilon);
         for (const auto& footprint : car.mTrajectory)
         {

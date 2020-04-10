@@ -103,7 +103,7 @@ bool Car::moveOnSurface(Surface surface)
         decelerate();
         // Attention: intentional fallthrough!
     case Surface::Track:
-        if (mMap[mPrevSquare] == Surface::FinishLine && mDirection * mMap.mDirection)
+        if (mMap[mPrevSquare] == Surface::FinishLine && mDirection * mMap.mFinishLineDirection)
         {
             mLeftFinishLine = true;
         }
@@ -112,7 +112,7 @@ bool Car::moveOnSurface(Surface surface)
         bounceBack();
         return false;
     case Surface::FinishLine:
-        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mDirection * mMap.mDirection)
+        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mDirection * mMap.mFinishLineDirection)
         {
             // Wheeee!
             mLapTimes.emplace_back(mCurrentLapTime);

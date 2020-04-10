@@ -7,7 +7,7 @@
 
 Map::Map(std::istream& stream)
 {
-    const_cast< Vector2D& >(mDirection) = { 0, 1 }; // Points upward
+    const_cast< Vector2D& >(mFinishLineDirection) = { 0, 1 }; // Points upward
 
     assert(stream.good());
     size_t mapWidth, mapHeight;
@@ -57,7 +57,7 @@ void Map::addCar(Car* car) const
     assert(finishSquare != mSquares.cend());
     car->mPrevSquare = { finishSquare->mX, finishSquare->mY };
     car->mPosition = { finishSquare->mX, finishSquare->mY };
-    car->mDirection = mDirection;
+    car->mDirection = mFinishLineDirection;
     car->mSpeed = 0;
     const_cast< Map& >(*this).mCar = car;
 }

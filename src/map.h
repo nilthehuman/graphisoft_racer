@@ -27,7 +27,7 @@ class Car;
 
 struct Map
 {
-    Map(const std::vector<Square>& squares) : mSquares(squares), mDirection{0, 1} {}
+    Map(const std::vector<Square>& squares) : mSquares(squares), mFinishLineDirection{0, 1} {}
 	Map(std::istream& stream);
 
     void addCar(Car* car) const;
@@ -35,6 +35,6 @@ struct Map
 
     // TODO: Squares could be stored as a std::unordered_map<Vector2D,Surface> for faster lookup
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface
-    const Vector2D mDirection; // You may only reach the finish line at a positive dot product with this vector
+    const Vector2D mFinishLineDirection; // You may only reach the finish line at a positive dot product with this vector
     const Car* mCar; // Single player for now
 };
