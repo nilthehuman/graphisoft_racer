@@ -12,8 +12,10 @@ struct Vector2D
     // The usual stuff
     double length() const;
     Vector2D normalized() const;
+    Vector2D rounded() const; // Returns the closest point with integer coordinates
 
     bool operator==(const Vector2D& other) const;
+    bool operator!=(const Vector2D& other) const;
 
     Vector2D operator+(const Vector2D& other) const;
     Vector2D operator-(const Vector2D& other) const;

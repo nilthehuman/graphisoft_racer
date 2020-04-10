@@ -37,15 +37,16 @@ void Car::drive()
 
     ++mCurrentLapTime;
 
-    Vector2D topLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
-    for (size_t i = 1; i < mSpeed; ++i)
+    Vector2D currentSquare = mPosition.rounded();
+    Vector2D newSquare;
+    for (size_t i = 1; i <= mSpeed; ++i)
     {
         mPosition += mDirection;
-        const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
-        if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
+        newSquare = mPosition.rounded();
+        if (currentSquare != newSquare)
         {
             // Just entered a new square
-            topLeftCorner = newTopLeftCorner;
+            currentSquare = newSquare;
             const Surface& surface = mMap[mPosition];
             if (!moveOnSurface(surface))
             {
@@ -57,8 +58,8 @@ void Car::drive()
     }
     // Apply the last little bit of velocity
     mPosition += mDirection * (mSpeed - (unsigned)mSpeed);
-    const Vector2D newTopLeftCorner{ (double)(unsigned)mPosition.mX, (double)(unsigned)mPosition.mY };
-    if (topLeftCorner.mX != newTopLeftCorner.mX || topLeftCorner.mY != newTopLeftCorner.mY)
+    newSquare = mPosition.rounded();
+    if (currentSquare != newSquare)
     {
         const Surface& arrivalSurface = mMap[mPosition];
         moveOnSurface(arrivalSurface);

@@ -10,6 +10,11 @@ bool Vector2D::operator==(const Vector2D& other) const
     return dX < epsilon && dY < epsilon;
 }
 
+bool Vector2D::operator!=(const Vector2D& other) const
+{
+    return !(*this == other);
+}
+
 double Vector2D::length() const
 {
     return sqrt(mX * mX + mY * mY);
@@ -19,6 +24,13 @@ Vector2D Vector2D::normalized() const
 {
     const double l = length();
     return Vector2D{ mX / l, mY / l };
+}
+
+Vector2D Vector2D::rounded() const
+{
+    const double newX = std::floor(mX + 0.5);
+    const double newY = std::floor(mY + 0.5);
+    return Vector2D{ newX, newY };
 }
 
 Vector2D Vector2D::operator+(const Vector2D& other) const
