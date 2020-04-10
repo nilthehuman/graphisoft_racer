@@ -84,7 +84,7 @@ void Car::bounceBack()
 void Car::steerLeft()
 {
     // Use an increment of 15 degrees, this can be tuned later
-    const double deltaRadian = pi * (15 / 180);
+    const double deltaRadian = pi * (15. / 180.);
     const double sine   = std::sin(deltaRadian);
     const double cosine = std::cos(deltaRadian);
     const double rotMatrix[2][2] = { {cosine, -sine}, {sine, cosine} };
@@ -94,10 +94,10 @@ void Car::steerLeft()
 void Car::steerRight()
 {
     // Use an increment of 15 degrees, this can be tuned later
-    const double deltaRadian = pi * (15 / 180);
+    const double deltaRadian = pi * (15. / 180.);
     const double sine   = std::sin(deltaRadian);
     const double cosine = std::cos(deltaRadian);
-    const double rotMatrix[2][2] = { {-cosine, sine}, {-sine, -cosine} };
+    const double rotMatrix[2][2] = { {cosine, sine}, {-sine, cosine} };
     mDirection = { mDirection.mX * rotMatrix[0][0] + mDirection.mY * rotMatrix[0][1], mDirection.mX * rotMatrix[1][0] + mDirection.mY * rotMatrix[1][1] };
 }
 
