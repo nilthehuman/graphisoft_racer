@@ -1,6 +1,7 @@
 #include "vector.h"
 
 #include <cmath>
+#include <tuple>
 
 bool Vector2D::operator==(const Vector2D& other) const
 {
@@ -79,7 +80,8 @@ Vector2D& Vector2D::rotate(double degrees)
     const double sine = std::sin(radian);
     const double cosine = std::cos(radian);
     const double rotMatrix[2][2] = { {cosine, -sine}, {sine, cosine} };
-    mX = mX * rotMatrix[0][0] + mY * rotMatrix[0][1];
-    mY = mX * rotMatrix[1][0] + mY * rotMatrix[1][1];
+    // I could use a tempX, but this is more expressive and elegant
+    std::tie( mX, mY ) = std::pair( mX * rotMatrix[0][0] + mY * rotMatrix[0][1],
+                                    mX * rotMatrix[1][0] + mY * rotMatrix[1][1] );
     return *this;
 }
