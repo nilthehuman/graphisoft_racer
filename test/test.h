@@ -259,8 +259,34 @@ namespace componentTests
         assert(!car.mLeftFinishLine);
     }
 
+    void roundAndRoundOnAnEmptyMap()
+    {
+        std::ifstream mapStream(emptyMapFilePath);
+        const Map emptyMap(mapStream);
+        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
+        Car car(emptyMap, circleStrategy);
+        // Keep steering right with speed == 1
+        for (size_t i = 0; i < 24; ++i)
+        {
+            car.drive();
+        }
+        assert(car.mCurrentLapTime == 0);
+        assert(car.mLapTimes.size() == 1);
+        assert(car.mLapTimes[0] == 24);
+        assert(!car.mLeftFinishLine);
+        for (size_t i = 0; i < 24; ++i)
+        {
+            car.drive();
+        }
+        assert(car.mCurrentLapTime == 0);
+        assert(car.mLapTimes.size() == 2);
+        assert(car.mLapTimes[1] == 24);
+        assert(!car.mLeftFinishLine);
+    }
+
     void runAll()
     {
         staySafeStayHome();
+        roundAndRoundOnAnEmptyMap();
     }
 }
