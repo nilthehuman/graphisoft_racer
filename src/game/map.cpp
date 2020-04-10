@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <iostream>
+#include <stdlib.h>
 
 Map::Map(const std::vector<Square>& squares)
     : mMinX(0) // Attention: this is just to appease the compiler, the bounding box will be set in the body
@@ -174,4 +176,34 @@ void Race::race(Car& car) const
             return;
         }
     }
+}
+
+void Race::raceWithUI(Car& car) const
+{
+    std::cout << mMap;
+    std::cout << "Ready... Set... Go! Please press Return." << std::endl;
+    std::getchar();
+    for (size_t tick = 0; tick < mTimeout; ++tick)
+    {
+        if (car.drive())
+        {
+            std::cout << "Your car has finished the race!" << std::endl;
+            std::getchar();
+            return;
+        }
+        system("cls");
+        std::cout << mMap;
+        std::cout << "Please press Return or type Q to quit..." << std::endl;
+        std::cout << "> ";
+        const char input = std::getchar();
+        if ('q' == input || 'Q' == input)
+        {
+            return;
+        }
+    }
+    std::cout << "Your car timed out. I'm sorry." << std::endl;
+    std::cout << "Please type Q to quit." << std::endl;
+    std::cout << "> ";
+    char input;
+    while ((input = std::getchar()) != 'q' && input != 'Q');
 }
