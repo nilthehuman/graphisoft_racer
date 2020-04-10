@@ -19,8 +19,7 @@ int main()
     const Map map(mapStream);
     const Race race(map, 10, 1000);
     IDriver::sSelectedRace = &race;
-    Car myCar(race, sampleDrivers::CircleDriver(), 'A');
-    race.raceWithUI(myCar);
+    race.raceWithUI(sampleDrivers::CircleDriver());
 
     return 0;
 }

@@ -10,9 +10,7 @@ double IDriver::fitness()
 {
     assert(sSelectedRace);
     // Get a car and step on that throttle
-    Car myCar(*sSelectedRace, *this);
-    sSelectedRace->race(myCar);
-    const size_t time = myCar.getRaceTime();
+    const size_t time = sSelectedRace->race(*this);
     return (double)(-1 * time); // Negate time to get a fitness score
 }
 

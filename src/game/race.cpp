@@ -2,6 +2,7 @@
 
 #include "car.h"
 #include "map.h"
+#include "driving.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -14,20 +15,23 @@ Race::Race(const Map& map, size_t laps, size_t timeout, size_t position)
 {
 }
 
-void Race::race(Car& car) const
+size_t Race::race(IDriver& driver) const
 {
+    Car car(*this, driver);
     for (size_t tick = 0; tick < mTimeout; ++tick)
     {
         if (car.drive())
         {
             // The car finished the race
-            return;
+            return car.getRaceTime();
         }
     }
+    return car.getRaceTime();
 }
 
-void Race::raceWithUI(Car& car) const
+size_t Race::raceWithUI(IDriver& driver) const
 {
+    Car car(*this, driver);
     std::cout << mMap;
     std::cout << "Ready... Set... Go! Please press Return." << std::endl;
     std::getchar();
@@ -40,7 +44,7 @@ void Race::raceWithUI(Car& car) const
             std::cout << "> ";
             char input;
             while ((input = std::getchar()) != 'q' && input != 'Q');
-            return;
+            return car.getRaceTime();
         }
         system("cls");
         std::cout << mMap;
@@ -49,7 +53,7 @@ void Race::raceWithUI(Car& car) const
         const char input = std::getchar();
         if ('q' == input || 'Q' == input)
         {
-            return;
+            return car.getRaceTime();;
         }
     }
     std::cout << "Your car timed out. I'm sorry." << std::endl;
@@ -57,4 +61,5 @@ void Race::raceWithUI(Car& car) const
     std::cout << "> ";
     char input;
     while ((input = std::getchar()) != 'q' && input != 'Q');
+    return car.getRaceTime();
 }

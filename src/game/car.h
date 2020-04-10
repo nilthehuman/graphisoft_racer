@@ -67,7 +67,7 @@ private:
     std::vector<unsigned> mLapTimes; // Number of ticks each lap was completed in
     bool mLeftFinishLine = false; // Make sure we don't count standing on the finish line as several laps
 
-    friend void Map::addCar(Car*) const;
+    friend void Map::addCar(Car*, size_t) const;
     friend std::ostream& operator<<(std::ostream&, const Map&);
     friend std::ostream& operator<<(std::ostream&, const Car&);
     friend void unitTests::CarTests::createCar();

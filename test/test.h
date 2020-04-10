@@ -327,10 +327,9 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 1, 1000);
-        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
-        Car car(race, CircleDriver);
-        race.race(car);
-        assert(car.getRaceTime() < 25);
+        IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        const size_t time = race.race(CircleDriver);
+        assert(time < 25);
     }
 
     void timoutOnDoughnutMap()
@@ -338,10 +337,9 @@ namespace componentTests
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
-        Car car(race, CircleDriver);
-        race.race(car);
-        assert(car.getRaceTime() == race.mTimeout);
+        IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        const size_t time = race.race(CircleDriver);
+        assert(time == race.mTimeout);
     }
 
     void runAll()
