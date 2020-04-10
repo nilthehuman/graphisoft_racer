@@ -7,7 +7,7 @@
 
 Map::Map(std::istream& stream)
 {
-    const_cast< Vector2D& >(mDirection) = { 0, -1 }; // Points upward
+    const_cast< Vector2D& >(mDirection) = { 0, 1 }; // Points upward
 
     assert(stream.good());
     size_t mapWidth, mapHeight;
@@ -45,8 +45,8 @@ Map::Map(std::istream& stream)
                 // Unknown surface
                 assert(false);
             }
-            // y axis points downward, maybe flip it later
-            const_cast< std::vector<Square>& >(mSquares).emplace_back( (double)x, (double)y, surface );
+            // y axis points upward now :)
+            const_cast< std::vector<Square>& >(mSquares).emplace_back( (double)x, (double)(mapHeight - y - 1), surface );
         }
     }
 }

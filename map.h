@@ -27,7 +27,7 @@ class Car;
 
 struct Map
 {
-    Map(const std::vector<Square>& squares) : mSquares(squares), mDirection{0, -1} {}
+    Map(const std::vector<Square>& squares) : mSquares(squares), mDirection{0, 1} {}
 	Map(std::istream& stream);
 
     void addCar(Car* car) const;

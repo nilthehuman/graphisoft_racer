@@ -18,25 +18,25 @@ namespace unitTests
     {
         void equalityAfterAddition()
         {
-            Vector2D vec(0, -1);
+            Vector2D vec(0, 1);
             assert(vec == vec);
             Vector2D sumVec(0, 0);
-            sumVec += Vector2D( 30, -2);
-            sumVec += Vector2D(-30, 1);
+            sumVec += Vector2D( 30,  2);
+            sumVec += Vector2D(-30, -1);
             assert(vec == sumVec);
-            sumVec = Vector2D(30, -2) + Vector2D(-30, 1);
+            sumVec = Vector2D(30, 2) + Vector2D(-30, -1);
             assert(vec == sumVec);
         }
 
         void equalityAfterSubtraction()
         {
-            Vector2D vec(0, -1);
+            Vector2D vec(0, 1);
             assert(vec == vec);
             Vector2D diffVec;
-            diffVec += Vector2D(30, -2);
-            diffVec -= Vector2D(30, -1);
+            diffVec += Vector2D(30, 2);
+            diffVec -= Vector2D(30, 1);
             assert(vec == diffVec);
-            diffVec = Vector2D(30, -2) - Vector2D(30, -1);
+            diffVec = Vector2D(30, 2) - Vector2D(30, 1);
             assert(vec == diffVec);
         }
 
@@ -62,20 +62,20 @@ namespace unitTests
 
         void rotatesCancelOut()
         {
-            Vector2D vec(0, -1);
+            Vector2D vec(0, 1);
             vec.rotate(120);
             vec.rotate(-30);
             vec.rotate(-90);
-            assert(vec == Vector2D(0, -1));
+            assert(vec == Vector2D(0, 1));
         }
 
         void rotateBackAround()
         {
-            Vector2D vec(0, -1);
+            Vector2D vec(0, 1);
             vec.rotate(120);
             vec.rotate(120);
             vec.rotate(120);
-            assert(vec == Vector2D(0, -1));
+            assert(vec == Vector2D(0, 1));
         }
 
         void runAll()
@@ -108,7 +108,7 @@ namespace unitTests
                 assert(mapFromSquares.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromSquares[Vector2D((double)i, 0)] == Surface::FinishLine);
             }
-            assert(mapFromSquares.mDirection == Vector2D(0, -1));
+            assert(mapFromSquares.mDirection == Vector2D(0, 1));
 
             Map mapFromMap(mapFromSquares.mSquares);
             assert(mapFromMap.mSquares.size() == 4);
@@ -119,7 +119,7 @@ namespace unitTests
                 assert(mapFromMap.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromMap[Vector2D((double)i, 0)] == Surface::FinishLine);
             }
-            assert(mapFromMap.mDirection == Vector2D(0, -1));
+            assert(mapFromMap.mDirection == Vector2D(0, 1));
         }
 
         void loadEmptyMapFromFile()
@@ -134,7 +134,7 @@ namespace unitTests
                 assert(mapFromFile.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromFile[Vector2D((double)i, 0)] == Surface::FinishLine);
             }
-            assert(mapFromFile.mDirection == Vector2D(0, -1));
+            assert(mapFromFile.mDirection == Vector2D(0, 1));
         }
 
         void loadDoughnutMapFromFile()
@@ -145,8 +145,8 @@ namespace unitTests
             assert(mapFromFile[Vector2D(2, 1)] == Surface::Wall);
             assert(mapFromFile[Vector2D(5, 6)] == Surface::Track);
             assert(mapFromFile[Vector2D(8, 13)] == Surface::Gravel);
-            assert(mapFromFile[Vector2D(3, 10)] == Surface::FinishLine);
-            assert(mapFromFile.mDirection == Vector2D(0, -1));
+            assert(mapFromFile[Vector2D(3, 9)] == Surface::FinishLine);
+            assert(mapFromFile.mDirection == Vector2D(0, 1));
         }
 
         void runAll()
