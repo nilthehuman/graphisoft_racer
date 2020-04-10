@@ -4,21 +4,44 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
+
+Map::Map(const std::vector<Square>& squares)
+    : mWidth(0) // Attention: this is just to appease the compiler, mWidth and mHeight will be set in the body
+    , mHeight(0)
+    , mSquares(squares)
+    , mFinishLineDirection{0, 1} // Points upward
+{
+    int minX = std::numeric_limits<int>::max();
+    int maxX = std::numeric_limits<int>::min();
+    int minY = std::numeric_limits<int>::max();
+    int maxY = std::numeric_limits<int>::min();
+    for (const Square& square : squares)
+    {
+        const Vector2D point = square.rounded();
+        minX = std::min(minX, (int)point.mX);
+        maxX = std::max(maxX, (int)point.mX);
+        minY = std::min(minY, (int)point.mY);
+        maxY = std::max(maxY, (int)point.mY);
+    }
+    const_cast< size_t& >(mWidth)  = maxX - minX;
+    const_cast< size_t& >(mHeight) = maxY - minY;
+}
 
 Map::Map(std::istream& stream)
+    : mWidth(0) // Attention: this is just to appease the compiler, mWidth and mHeight will be set in the body
+    , mHeight(0)
+    , mFinishLineDirection{0, 1} // Points upward
 {
-    const_cast< Vector2D& >(mFinishLineDirection) = { 0, 1 }; // Points upward
-
     assert(stream.good());
-    size_t mapWidth, mapHeight;
-    stream >> mapWidth;
+    stream >> const_cast< size_t& >(mWidth);
     stream.ignore(); // skip the 'x'
-    stream >> mapHeight;
-    for (size_t y = 0; y < mapHeight; ++y)
+    stream >> const_cast< size_t& >(mHeight);
+    for (size_t y = 0; y < mHeight; ++y)
     {
         stream.ignore(256, '\n');
         // Scan current line character by character
-        for (size_t x = 0; x < mapWidth; ++x)
+        for (size_t x = 0; x < mWidth; ++x)
         {
             if (stream.eof())
             {
@@ -46,7 +69,7 @@ Map::Map(std::istream& stream)
                 assert(false);
             }
             // y axis points upward now :)
-            const_cast< std::vector<Square>& >(mSquares).emplace_back( (double)x, (double)(mapHeight - y - 1), surface );
+            const_cast< std::vector<Square>& >(mSquares).emplace_back( (double)x, (double)(mHeight - y - 1), surface );
         }
     }
 }
@@ -74,4 +97,46 @@ Surface Map::operator[](const Vector2D& position) const
         }
     }
     return Surface::Track;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Map& map)
+{
+    const Vector2D carPosition = map.mCar->mPosition.rounded();
+    for (int y = map.mHeight - 1; 0 <= y; --y)
+    {
+        for (int x = 0; x < map.mWidth; ++x)
+        {
+            const Vector2D point((double)x, (double)y);
+            if (point == carPosition)
+            {
+                stream << map.mCar->mIcon;
+            }
+            else
+            {
+                char c;
+                switch (map[point])
+                {
+                case Surface::Track:
+                    c = ' ';
+                    break;
+                case Surface::Gravel:
+                    c = '.';
+                    break;
+                case Surface::Wall:
+                    c = 'X';
+                    break;
+                case Surface::FinishLine:
+                    c = '=';
+                    break;
+                default:
+                    assert(false);
+                }
+                stream << c;
+            }
+        }
+        stream << std::endl;
+    }
+    stream << *map.mCar;
+    stream << std::endl;
+    return stream;
 }

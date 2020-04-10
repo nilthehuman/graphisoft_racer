@@ -2,7 +2,7 @@
 
 #include "vector.h"
 
-#include <istream>
+#include <iostream>
 #include <vector>
 
 // Types of map surfaces
@@ -27,14 +27,18 @@ class Car;
 
 struct Map
 {
-    Map(const std::vector<Square>& squares) : mSquares(squares), mFinishLineDirection{0, 1} {}
+    Map(const std::vector<Square>& squares);
 	Map(std::istream& stream);
 
     void addCar(Car* car) const;
     Surface operator[](const Vector2D& position) const;
 
+    const size_t mWidth;
+    const size_t mHeight;
     // TODO: Squares could be stored as a std::unordered_map<Vector2D,Surface> for faster lookup
     const std::vector<Square> mSquares; // All unmentioned Squares are assumed to have the Track surface
     const Vector2D mFinishLineDirection; // You may only reach the finish line at a positive dot product with this vector
     const Car* mCar; // Single player for now
 };
+
+std::ostream& operator<<(std::ostream&, const Map&);

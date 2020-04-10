@@ -97,3 +97,9 @@ Vector2D& Vector2D::rotate(double degrees)
                                     mX * rotMatrix[1][0] + mY * rotMatrix[1][1] );
     return *this;
 }
+
+std::ostream& operator<<(std::ostream& stream, const Vector2D& vec)
+{
+    stream << '(' << vec.mX << ',' << vec.mY << ')';
+    return stream;
+}
