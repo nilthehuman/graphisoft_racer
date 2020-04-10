@@ -50,6 +50,7 @@ private:
     Vector2D mPosition;
     Vector2D mDirection; // Take care to keep this normalized
     double mSpeed;
+    std::vector<Vector2D> mTrajectory; // Records positions at the beginning of each round
 
     unsigned mCurrentLapTime; // Number of rounds elapsed since the start of the latest lap
     std::vector<unsigned> mLapTimes; // Number of rounds each lap was completed in

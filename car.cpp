@@ -12,6 +12,8 @@ Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrateg
 
 void Car::drive()
 {
+    mTrajectory.push_back(mPosition);
+
     const DrivingAction action = mStrategy.run(*this);
     switch (action)
     {
