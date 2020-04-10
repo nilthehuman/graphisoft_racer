@@ -5,12 +5,12 @@
 
 // ======== Necessary predeclarations ========
 
-class IDrivingStrategy;
+class IDriver;
 
-namespace sampleDrivingStrategies {
-    class NullStrategy;
-    class ManiacStrategy;
-    class CircleStrategy;
+namespace sampleDrivers {
+    class NullDriver;
+    class ManiacDriver;
+    class CircleDriver;
 }
 
 namespace unitTests
@@ -37,7 +37,7 @@ class Car
 {
 public:
     // Spawns a new car standing on the finish line
-    Car(const Race& race, const IDrivingStrategy& strategy, char icon = '0');
+    Car(const Race& race, const IDriver& driver, char icon = '0');
 
     bool drive(); // true when the Car has completed the required number of laps
     size_t getRaceTime(); // Returns total number of ticks it took to complete the race
@@ -53,7 +53,7 @@ private:
 
 private:
     const Race& mRace;
-    const IDrivingStrategy& mStrategy;
+    const IDriver& mDriver;
 
     const char mIcon; // The Car will appear as this character on the UI
 
@@ -76,9 +76,9 @@ private:
     friend void componentTests::staySafeStayHome();
     friend void componentTests::roundAndRoundOnAnEmptyMap();
     friend void componentTests::roundAndRoundOnDoughnutMap();
-    friend class sampleDrivingStrategies::NullStrategy;
-    friend class sampleDrivingStrategies::ManiacStrategy;
-    friend class sampleDrivingStrategies::CircleStrategy;
+    friend class sampleDrivers::NullDriver;
+    friend class sampleDrivers::ManiacDriver;
+    friend class sampleDrivers::CircleDriver;
 };
 
 std::ostream& operator<<(std::ostream&, const Car&);

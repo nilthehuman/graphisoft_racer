@@ -15,7 +15,7 @@ struct Race;
 class Car;
 
 // An algorithm that picks a DrivingAction based on the current state of the world
-class IDrivingStrategy : public genetic::IOrganism
+class IDriver : public genetic::IOrganism
 {
 public:
     // ======== This map will be used to measure driver fitness ========
@@ -26,14 +26,16 @@ public:
     virtual double fitness() const override;
     virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override = 0;
 
+    // This function is responsible for the actual driving logic
     virtual DrivingAction run(const Car& car) const = 0;
 };
 
-// ======== Sample strategies, wheeeeee! ========
+// ======== Sample drivers, wheeeeee! ========
 
-namespace sampleDrivingStrategies {
+namespace sampleDrivers {
 
-    class NullStrategy : public IDrivingStrategy
+    // This one fell asleep at the start
+    class NullDriver : public IDriver
     {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
@@ -41,7 +43,8 @@ namespace sampleDrivingStrategies {
         virtual DrivingAction run(const Car&) const override;
     };
 
-    class ManiacStrategy : public IDrivingStrategy
+    // This one just steps on the gas until it crashes
+    class ManiacDriver : public IDriver
     {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
@@ -52,7 +55,8 @@ namespace sampleDrivingStrategies {
         double mMaxSpeed;
     };
 
-    class CircleStrategy : public IDrivingStrategy
+    // This Driver will keep steering right and hope for the best
+    class CircleDriver : public IDriver
     {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;

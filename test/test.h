@@ -185,8 +185,8 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(race, nullStrategy);
+            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            Car car(race, nullDriver);
             assert(car.mPrevSquare == Vector2D(0, 0));
             assert(car.mPosition == Vector2D(0, 0));
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -197,8 +197,8 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(race, nullStrategy);
+            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            Car car(race, nullDriver);
             car.accelerate();
             assert(std::abs(car.mSpeed - 1) < epsilon);
             car.accelerate();
@@ -213,8 +213,8 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(race, nullStrategy);
+            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            Car car(race, nullDriver);
             car.steerLeft();
             car.steerRight();
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -257,8 +257,8 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-        Car car(race, nullStrategy);
+        const IDriver& nullDriver = sampleDrivers::NullDriver();
+        Car car(race, nullDriver);
         // Going nowhere at all
         car.drive();
         car.drive();
@@ -281,8 +281,8 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(race, circleStrategy);
+        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        Car car(race, CircleDriver);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
         {
@@ -307,8 +307,8 @@ namespace componentTests
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(race, circleStrategy);
+        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        Car car(race, CircleDriver);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
         {
@@ -327,8 +327,8 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 1, 1000);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(race, circleStrategy);
+        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        Car car(race, CircleDriver);
         race.race(car);
         assert(car.getRaceTime() < 25);
     }
@@ -338,8 +338,8 @@ namespace componentTests
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(race, circleStrategy);
+        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        Car car(race, CircleDriver);
         race.race(car);
         assert(car.getRaceTime() == race.mTimeout);
     }

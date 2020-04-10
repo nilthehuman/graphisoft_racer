@@ -4,9 +4,9 @@
 
 #include <cassert>
 
-const Race* IDrivingStrategy::sSelectedRace = nullptr;
+const Race* IDriver::sSelectedRace = nullptr;
 
-double IDrivingStrategy::fitness() const
+double IDriver::fitness() const
 {
     assert(sSelectedRace);
     // Get a car and step on that throttle
@@ -18,26 +18,26 @@ double IDrivingStrategy::fitness() const
 
 // =================================================================
 
-genetic::IOrganism* sampleDrivingStrategies::NullStrategy::spawn(const genetic::Genome& car) const
+genetic::IOrganism* sampleDrivers::NullDriver::spawn(const genetic::Genome& car) const
 {
     // No parameters to configure
-    return new NullStrategy;
+    return new NullDriver;
 }
 
-DrivingAction sampleDrivingStrategies::NullStrategy::run(const Car&) const
+DrivingAction sampleDrivers::NullDriver::run(const Car&) const
 {
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivingStrategies::ManiacStrategy::spawn(const genetic::Genome& genome) const
+genetic::IOrganism* sampleDrivers::ManiacDriver::spawn(const genetic::Genome& genome) const
 {
     assert(!genome.empty());
-    ManiacStrategy* strategy = new ManiacStrategy;
-    strategy->mMaxSpeed = genome[0];
-    return strategy;
+    ManiacDriver* driver = new ManiacDriver;
+    driver->mMaxSpeed = genome[0];
+    return driver;
 }
 
-DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
+DrivingAction sampleDrivers::ManiacDriver::run(const Car& car) const
 {
     if (car.mSpeed < mMaxSpeed)
     {
@@ -46,13 +46,13 @@ DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivingStrategies::CircleStrategy::spawn(const genetic::Genome& genome) const
+genetic::IOrganism* sampleDrivers::CircleDriver::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
-    return new CircleStrategy;
+    return new CircleDriver;
 }
 
-DrivingAction sampleDrivingStrategies::CircleStrategy::run(const Car& car) const
+DrivingAction sampleDrivers::CircleDriver::run(const Car& car) const
 {
     // Prefer using the Car's state to keeping a bool in this class
     if (car.mSpeed < 0.001)

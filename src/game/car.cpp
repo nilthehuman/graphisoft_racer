@@ -9,9 +9,9 @@
 
 // ======== Car member functions ========
 
-Car::Car(const Race& race, const IDrivingStrategy& strategy, char icon)
+Car::Car(const Race& race, const IDriver& driver, char icon)
     : mRace(race)
-    , mStrategy(strategy)
+    , mDriver(driver)
     , mIcon(icon)
 {
     assert(icon != ' ' && icon != '.' && icon != 'X' && icon != '=');
@@ -27,7 +27,7 @@ bool Car::drive()
 
     mTrajectory.push_back(mPosition);
 
-    const DrivingAction action = mStrategy.run(*this);
+    const DrivingAction action = mDriver.run(*this);
     switch (action)
     {
     case DrivingAction::KeepGoing:
