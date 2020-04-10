@@ -25,6 +25,7 @@ struct Square : public Vector2D
 
 class Car;
 
+// An unbroken racing circuit defined on an integer grid
 struct Map
 {
     Map(const std::vector<Square>& squares);
@@ -46,3 +47,15 @@ struct Map
 };
 
 std::ostream& operator<<(std::ostream&, const Map&);
+
+// Specifies the exact conditions of a race to measure the drivers' skill by
+struct Race
+{
+    Race(const Map& map, size_t laps, size_t timeout);
+
+    void race(Car& car) const;
+
+    const Map& mMap; // The map the race takes place on
+    const size_t mLaps; // Number of laps to be completed on the circuit
+    const size_t mTimeout; // After this many ticks the driver will be disqualified
+};

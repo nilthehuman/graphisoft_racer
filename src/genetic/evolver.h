@@ -10,9 +10,11 @@ using Genome = std::vector<double>;
 class IOrganism
 {
 public:
-    virtual const Genome& getGenome() const = 0; // Get this individual's genome
+    virtual const Genome& getGenome() const { return mGenome; }
     virtual double fitness() const = 0; // Individual fitness score; the higher the better
-    virtual IOrganism* clone(const Genome& genome) const = 0; // Spawn a new organism from the given genome
+    virtual IOrganism* spawn(const Genome& genome) const = 0; // Create a new organism with the given genome
+
+    const Genome mGenome; // I know, it's a member in an interface, sue me
 };
 
 //// Interface for the classic Factory design pattern. The Evolver is going to use this
@@ -31,7 +33,8 @@ class Evolver
     // void select(double fraction = 0.3) // Keep the top 30% fittest individuals
     // IOrganism* mutate(IOrganism*)
     // IOrganism* crossover(IOrganism*, IOrganism*)
-    std::vector<IOrganism*> mIndividuals;
+    const IOrganism* const mAdam; // The prototype organism
+    std::vector<IOrganism*> mIndividuals; // The current crop of new organisms
 };
 
 }

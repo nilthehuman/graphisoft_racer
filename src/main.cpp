@@ -18,7 +18,8 @@ int main()
 
     std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map");
     const Map map(mapStream);
-    Car myCar(map, sampleDrivingStrategies::CircleStrategy(), 'A');
+    IDrivingStrategy::sSelectedRace = new Race(map, 10, 1000);
+    Car myCar(*IDrivingStrategy::sSelectedRace, sampleDrivingStrategies::CircleStrategy(), 'A');
     std::cout << map;
     while (true)
     {

@@ -156,3 +156,22 @@ std::ostream& operator<<(std::ostream& stream, const Map& map)
     stream << std::endl;
     return stream;
 }
+
+Race::Race(const Map& map, size_t laps, size_t timeout)
+    : mMap(map)
+    , mLaps(laps)
+    , mTimeout(timeout)
+{
+}
+
+void Race::race(Car& car) const
+{
+    for (size_t tick = 0; tick < mTimeout; ++tick)
+    {
+        if (car.drive())
+        {
+            // The car finished the race
+            return;
+        }
+    }
+}

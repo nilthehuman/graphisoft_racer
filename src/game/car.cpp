@@ -4,21 +4,27 @@
 
 #include <algorithm>
 #include <cassert>
+#include <numeric>
 #include <ostream>
 
 // ======== Car member functions ========
 
-Car::Car(const Map& map, const IDrivingStrategy& strategy, char icon)
-    : mMap(map)
+Car::Car(const Race& race, const IDrivingStrategy& strategy, char icon)
+    : mRace(race)
     , mStrategy(strategy)
     , mIcon(icon)
 {
     assert(icon != ' ' && icon != '.' && icon != 'X' && icon != '=');
-    map.addCar(this);
+    mRace.mMap.addCar(this);
 }
 
-void Car::drive()
+bool Car::drive()
 {
+    if (mRace.mLaps == mLapTimes.size())
+    {
+        return true;
+    }
+
     mTrajectory.push_back(mPosition);
 
     const DrivingAction action = mStrategy.run(*this);
@@ -54,11 +60,11 @@ void Car::drive()
         {
             // Just entered a new square
             currentSquare = newSquare;
-            const Surface& surface = mMap[mPosition];
-            if (!moveOnSurface(surface))
+            const Surface& surface = mRace.mMap[mPosition];
+            if (moveOnSurface(surface))
             {
-                // Hit a wall and bounced back, don't go any further
-                return;
+                // Race completed!
+                return true;
             }
             mPrevSquare = mPosition;
         }
@@ -68,9 +74,20 @@ void Car::drive()
     newSquare = mPosition.rounded();
     if (currentSquare != newSquare)
     {
-        const Surface& arrivalSurface = mMap[mPosition];
-        moveOnSurface(arrivalSurface);
+        const Surface& arrivalSurface = mRace.mMap[mPosition];
+        return moveOnSurface(arrivalSurface);
     }
+    return false;
+}
+
+size_t Car::getRaceTime()
+{
+    if (mLapTimes.size() < mRace.mLaps)
+    {
+        // Disqualified
+        return mRace.mTimeout;
+    }
+    return std::accumulate(mLapTimes.cbegin(), mLapTimes.cend(), 0);
 }
 
 void Car::accelerate()
@@ -110,28 +127,34 @@ bool Car::moveOnSurface(Surface surface)
         decelerate();
         // Attention: intentional fallthrough!
     case Surface::Track:
-        if (mMap[mPrevSquare] == Surface::FinishLine && mDirection * mMap.mFinishLineDirection)
+        if (mRace.mMap[mPrevSquare] == Surface::FinishLine && mDirection * mRace.mMap.mFinishLineDirection)
         {
             mLeftFinishLine = true;
         }
-        return true;
+        return false;
     case Surface::Wall:
         bounceBack();
         return false;
     case Surface::FinishLine:
-        if (mLeftFinishLine && mMap[mPosition] == Surface::FinishLine && mDirection * mMap.mFinishLineDirection)
+        if (mLeftFinishLine && mRace.mMap[mPosition] == Surface::FinishLine && mDirection * mRace.mMap.mFinishLineDirection)
         {
             // Wheeee!
             mLapTimes.emplace_back(mCurrentLapTime);
             mCurrentLapTime = 0;
             mLeftFinishLine = false;
+            if (mRace.mLaps == mLapTimes.size())
+            {
+                // We win!
+                return true;
+            }
         }
-        return true;
+        return false;
     default:
         assert(false);
     }
-    return true;
+    return false;
 }
+
 std::ostream& operator<<(std::ostream& stream, const Car& car)
 {
     // Print useful debug info

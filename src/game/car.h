@@ -36,9 +36,10 @@ class Car
 {
 public:
     // Spawns a new car standing on the finish line
-    Car(const Map& map, const IDrivingStrategy& strategy, char icon = '0');
+    Car(const Race& race, const IDrivingStrategy& strategy, char icon = '0');
 
-    void drive();
+    bool drive(); // true when the Car has completed the required number of laps
+    size_t getRaceTime(); // Returns total number of ticks it took to complete the race
 
 private:
     void accelerate();
@@ -47,22 +48,22 @@ private:
     void steerLeft();
     void steerRight();
 
-    bool moveOnSurface(Surface surface); // false means you hit a wall
+    bool moveOnSurface(Surface surface); // true when the Car has completed the required number of laps
 
 private:
-    const Map& mMap;
+    const Race& mRace;
     const IDrivingStrategy& mStrategy;
 
     const char mIcon; // The Car will appear as this character on the UI
 
-    Vector2D mPrevSquare; // The last square the Car passed through, _not_ its position in the last round!
+    Vector2D mPrevSquare; // The last square the Car passed through, _not_ its position in the last tick!
     Vector2D mPosition;
     Vector2D mDirection; // Take care to keep this normalized
     double mSpeed;
-    std::vector<Vector2D> mTrajectory; // Records positions at the beginning of each round
+    std::vector<Vector2D> mTrajectory; // Records positions at the beginning of each tick
 
-    unsigned mCurrentLapTime = 0; // Number of rounds elapsed since the start of the latest lap
-    std::vector<unsigned> mLapTimes; // Number of rounds each lap was completed in
+    unsigned mCurrentLapTime = 0; // Number of ticks elapsed since the start of the latest lap
+    std::vector<unsigned> mLapTimes; // Number of ticks each lap was completed in
     bool mLeftFinishLine = false; // Make sure we don't count standing on the finish line as several laps
 
     friend void Map::addCar(Car*) const;

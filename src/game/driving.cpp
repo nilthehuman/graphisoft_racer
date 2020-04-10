@@ -4,7 +4,21 @@
 
 #include <cassert>
 
-genetic::IOrganism* sampleDrivingStrategies::NullStrategy::clone(const genetic::Genome& car) const
+const Race* IDrivingStrategy::sSelectedRace = nullptr;
+
+double IDrivingStrategy::fitness() const
+{
+    assert(sSelectedRace);
+    // Get a car and step on that throttle
+    Car myCar(*sSelectedRace, *this);
+    sSelectedRace->race(myCar);
+    const size_t time = myCar.getRaceTime();
+    return (double)(-1 * time); // Negate time to get a fitness score
+}
+
+// =================================================================
+
+genetic::IOrganism* sampleDrivingStrategies::NullStrategy::spawn(const genetic::Genome& car) const
 {
     // No parameters to configure
     return new NullStrategy;
@@ -15,7 +29,7 @@ DrivingAction sampleDrivingStrategies::NullStrategy::run(const Car&) const
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivingStrategies::ManiacStrategy::clone(const genetic::Genome& genome) const
+genetic::IOrganism* sampleDrivingStrategies::ManiacStrategy::spawn(const genetic::Genome& genome) const
 {
     assert(!genome.empty());
     ManiacStrategy* strategy = new ManiacStrategy;
@@ -32,7 +46,7 @@ DrivingAction sampleDrivingStrategies::ManiacStrategy::run(const Car& car) const
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivingStrategies::CircleStrategy::clone(const genetic::Genome& genome) const
+genetic::IOrganism* sampleDrivingStrategies::CircleStrategy::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
     return new CircleStrategy;

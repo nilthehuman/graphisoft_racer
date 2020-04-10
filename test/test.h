@@ -184,8 +184,9 @@ namespace unitTests
         void createCar()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const Race race(minimalMap, 10, 1000);
             const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            Car car(race, nullStrategy);
             assert(car.mPrevSquare == Vector2D(0, 0));
             assert(car.mPosition == Vector2D(0, 0));
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -195,8 +196,9 @@ namespace unitTests
         void throttleAndBrake()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const Race race(minimalMap, 10, 1000);
             const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            Car car(race, nullStrategy);
             car.accelerate();
             assert(std::abs(car.mSpeed - 1) < epsilon);
             car.accelerate();
@@ -210,8 +212,9 @@ namespace unitTests
         void steer()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
+            const Race race(minimalMap, 10, 1000);
             const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            Car car(race, nullStrategy);
             car.steerLeft();
             car.steerRight();
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -253,8 +256,9 @@ namespace componentTests
     {
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
+        const Race race(emptyMap, 10, 1000);
         const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-        Car car(emptyMap, nullStrategy);
+        Car car(race, nullStrategy);
         // Going nowhere at all
         car.drive();
         car.drive();
@@ -276,8 +280,9 @@ namespace componentTests
     {
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
+        const Race race(emptyMap, 10, 1000);
         const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(emptyMap, circleStrategy);
+        Car car(race, circleStrategy);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
         {
@@ -301,8 +306,9 @@ namespace componentTests
     {
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
+        const Race race(emptyMap, 10, 1000);
         const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(emptyMap, circleStrategy);
+        Car car(race, circleStrategy);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
         {
