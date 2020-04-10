@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 constexpr double epsilon = 0.0001;
 constexpr double pi      = 3.1415927;
 
@@ -36,3 +38,5 @@ struct Vector2D
 
     double mX, mY;
 };
+
+std::ostream& operator<<(std::ostream&, const Vector2D&);
