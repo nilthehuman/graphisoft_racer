@@ -10,7 +10,7 @@
 #include <fstream>
 #include <vector>
 
-const char* emptyMapFilePath = "C:/work/graphisoft_racer/maps/empty.map"; // Adam, relative path please
+const char* emptyMapFilePath    = "C:/work/graphisoft_racer/maps/empty.map"; // Adam, relative path please
 const char* doughnutMapFilePath = "C:/work/graphisoft_racer/maps/doughnut.map"; // Adam, relative path please
 
 // ======== Unit tests ========
@@ -110,6 +110,8 @@ namespace unitTests
                 assert(mapFromSquares.mSquares[i].mY == 0);
                 assert(mapFromSquares.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromSquares[Vector2D((double)i, 0)] == Surface::FinishLine);
+                assert(mapFromSquares[Vector2D((double)i, 0.25)] == Surface::FinishLine);
+                assert(mapFromSquares[Vector2D((double)i, 1)] == Surface::Track);
             }
             assert(mapFromSquares.mDirection == Vector2D(0, 1));
 
@@ -121,6 +123,8 @@ namespace unitTests
                 assert(mapFromMap.mSquares[i].mY == 0);
                 assert(mapFromMap.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromMap[Vector2D((double)i, 0)] == Surface::FinishLine);
+                assert(mapFromMap[Vector2D((double)i, 0.25)] == Surface::FinishLine);
+                assert(mapFromMap[Vector2D((double)i, 1)] == Surface::Track);
             }
             assert(mapFromMap.mDirection == Vector2D(0, 1));
         }
@@ -136,6 +140,8 @@ namespace unitTests
                 assert(mapFromFile.mSquares[i].mY == 0);
                 assert(mapFromFile.mSquares[i].mSurface == Surface::FinishLine);
                 assert(mapFromFile[Vector2D((double)i, 0)] == Surface::FinishLine);
+                assert(mapFromFile[Vector2D((double)i, 0.25)] == Surface::FinishLine);
+                assert(mapFromFile[Vector2D((double)i, 1)] == Surface::Track);
             }
             assert(mapFromFile.mDirection == Vector2D(0, 1));
         }
