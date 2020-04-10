@@ -20,8 +20,6 @@ public:
     void drive();
 
 private:
-    static constexpr double pi = 3.1415927;
-
     void accelerate();
     void decelerate();
     void bounceBack();

@@ -1,33 +1,9 @@
 #pragma once
 
+#include "vector.h"
+
 #include <istream>
 #include <vector>
-
-// A pair of continuous Cartesian coordinates on a Euclidean plane
-struct Vector2D
-{
-    Vector2D() : mX(0), mY(0) {}
-    Vector2D(double x, double y) : mX(x), mY(y) {}
-
-    double length() const;
-    Vector2D normalized() const;
-
-    Vector2D operator+(const Vector2D& other) const;
-    Vector2D operator-(const Vector2D& other) const;
-
-    double operator*(const Vector2D& other) const;
-
-    Vector2D& operator+=(const Vector2D& other);
-    Vector2D& operator-=(const Vector2D& other);
-
-    Vector2D operator*(double scale) const;
-    Vector2D operator/(double scale) const;
-
-    Vector2D& operator*=(double scale);
-    Vector2D& operator/=(double scale);
-
-    double mX, mY;
-};
 
 // Types of map surfaces
 // A single map square has a single surface on it
@@ -51,7 +27,7 @@ class Car;
 
 struct Map
 {
-    Map(const std::vector<Square>& squares) : mSquares(squares) {}
+    Map(const std::vector<Square>& squares) : mSquares(squares), mDirection{0, -1} {}
 	Map(std::istream& stream);
 
     void addCar(Car* car) const;

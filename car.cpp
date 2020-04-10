@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cmath>
 
 Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
 {
@@ -83,22 +82,16 @@ void Car::bounceBack()
 
 void Car::steerLeft()
 {
-    // Use an increment of 15 degrees, this can be tuned later
-    const double deltaRadian = pi * (15. / 180.);
-    const double sine   = std::sin(deltaRadian);
-    const double cosine = std::cos(deltaRadian);
-    const double rotMatrix[2][2] = { {cosine, -sine}, {sine, cosine} };
-    mDirection = { mDirection.mX * rotMatrix[0][0] + mDirection.mY * rotMatrix[0][1], mDirection.mX * rotMatrix[1][0] + mDirection.mY * rotMatrix[1][1] };
+    // Right now steering is even allowed when standing still
+    const double theta = pi * (15. / 180.); // Use an increment of 15 degrees, this can be tuned later
+    mDirection.rotate(theta);
 }
 
 void Car::steerRight()
 {
-    // Use an increment of 15 degrees, this can be tuned later
-    const double deltaRadian = pi * (15. / 180.);
-    const double sine   = std::sin(deltaRadian);
-    const double cosine = std::cos(deltaRadian);
-    const double rotMatrix[2][2] = { {cosine, sine}, {-sine, cosine} };
-    mDirection = { mDirection.mX * rotMatrix[0][0] + mDirection.mY * rotMatrix[0][1], mDirection.mX * rotMatrix[1][0] + mDirection.mY * rotMatrix[1][1] };
+    // Right now steering is even allowed when standing still
+    const double theta = pi * (15. / 180.); // Use an increment of 15 degrees, this can be tuned later
+    mDirection.rotate(-theta);
 }
 
 bool Car::moveOnSurface(Surface surface)
