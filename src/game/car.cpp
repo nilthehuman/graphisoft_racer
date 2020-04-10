@@ -15,7 +15,7 @@ Car::Car(const Race& race, const IDriver& driver, char icon)
     , mIcon(icon)
 {
     assert(icon != ' ' && icon != '.' && icon != 'X' && icon != '=');
-    mRace.mMap.addCar(this);
+    mRace.mMap.addCar(this, mRace.mPosition);
 }
 
 bool Car::drive()
