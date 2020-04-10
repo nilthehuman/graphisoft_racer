@@ -63,6 +63,18 @@ namespace unitTests
             assert(std::abs(vec * normal - vec.length() * normal.length()) < epsilon);
         }
 
+        void cornersRoundUp()
+        {
+            Vector2D upRight  ( 0.5,  0.5);
+            Vector2D upLeft   (-0.5,  0.5);
+            Vector2D downLeft (-0.5, -0.5);
+            Vector2D downRight( 0.5, -0.5);
+            assert(upRight  .rounded() == Vector2D(1, 1));
+            assert(upLeft   .rounded() == Vector2D(0, 1));
+            assert(downLeft .rounded() == Vector2D(0, 0));
+            assert(downRight.rounded() == Vector2D(1, 0));
+        }
+
         void rotatesCancelOut()
         {
             Vector2D vec(0, 1);
@@ -87,6 +99,7 @@ namespace unitTests
             equalityAfterSubtraction();
             lengthGrowsLinearly();
             normalizationDoesNotChangeDirection();
+            cornersRoundUp();
             rotatesCancelOut();
             rotateBackAround();
         }
