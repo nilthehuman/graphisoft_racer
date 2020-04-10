@@ -74,3 +74,18 @@ private:
     friend class sampleDrivingStrategies::ManiacStrategy;
     friend class sampleDrivingStrategies::CircleStrategy;
 };
+
+// ======== CarFactory for the Evolver ========
+
+// TODO: Probably not necessary at all?
+//class CarFactory : public genetic::IFactory
+//{
+//public:
+//    CarFactory(const Map& map) : mMap(map) {}
+//
+//    template <typename StratT>
+//    virtual genetic::IOrganism* create() const override;
+//
+//private:
+//    const Map& mMap;
+//};

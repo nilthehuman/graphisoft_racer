@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../genetic/evolver.h"
+
 enum class DrivingAction
 {
     KeepGoing,
@@ -12,9 +14,11 @@ enum class DrivingAction
 class Car;
 
 // An algorithm that picks a DrivingAction based on the current state of the world
-class IDrivingStrategy
+class IDrivingStrategy : public genetic::IOrganism
 {
 public:
+    virtual genetic::IOrganism* clone(const genetic::Genome& genome) const override = 0;
+
     virtual DrivingAction run(const Car& car) const = 0;
 };
 
@@ -24,16 +28,28 @@ namespace sampleDrivingStrategies {
 
     class NullStrategy : public IDrivingStrategy
     {
+    public:
+        virtual genetic::IOrganism* clone(const genetic::Genome& genome) const override;
+
         virtual DrivingAction run(const Car&) const override;
     };
 
     class ManiacStrategy : public IDrivingStrategy
     {
+    public:
+        virtual genetic::IOrganism* clone(const genetic::Genome& genome) const override;
+
         virtual DrivingAction run(const Car& car) const override;
+
+    private:
+        double mMaxSpeed;
     };
 
     class CircleStrategy : public IDrivingStrategy
     {
+    public:
+        virtual genetic::IOrganism* clone(const genetic::Genome& genome) const override;
+
         virtual DrivingAction run(const Car&) const override;
     };
 }

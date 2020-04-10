@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cassert>
 
+// ======== Car member functions ========
+
 Car::Car(const Map& map, const IDrivingStrategy& strategy) : mMap(map), mStrategy(strategy)
 {
     map.addCar(this);
@@ -125,5 +127,3 @@ bool Car::moveOnSurface(Surface surface)
     }
     return true;
 }
-
-// TODO: implement the remaining Car member function definitions
