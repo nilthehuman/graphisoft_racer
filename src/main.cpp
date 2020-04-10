@@ -25,8 +25,12 @@ int main()
         myCar.drive();
         system("cls");
         std::cout << map;
-        std::cout << "Please press Return...";
-        getchar();
+        std::cout << "Please press Return or type Q to quit...";
+        const char input = std::getchar();
+        if ('q' == input || 'Q' == input)
+        {
+            break;
+        }
     }
 
     return 0;
