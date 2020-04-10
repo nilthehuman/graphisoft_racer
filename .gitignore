@@ -1,3 +1,5 @@
+######## GitHub default ignores ########
+
 # Prerequisites
 *.d
 
@@ -30,3 +32,7 @@
 *.exe
 *.out
 *.app
+
+######## Search AllStars custom ignores start here ########
+
+.vs/
