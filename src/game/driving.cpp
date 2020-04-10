@@ -6,7 +6,7 @@
 
 const Race* IDriver::sSelectedRace = nullptr;
 
-double IDriver::fitness() const
+double IDriver::fitness()
 {
     assert(sSelectedRace);
     // Get a car and step on that throttle

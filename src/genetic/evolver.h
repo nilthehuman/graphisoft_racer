@@ -11,7 +11,7 @@ class IOrganism
 {
 public:
     virtual const Genome& getGenome() const { return mGenome; }
-    virtual double fitness() const = 0; // Individual fitness score; the higher the better
+    virtual double fitness() = 0; // Individual fitness score; the higher the better
     virtual IOrganism* spawn(const Genome& genome) const = 0; // Create a new organism with the given genome
 
     const Genome mGenome; // I know, it's a member in an interface, sue me

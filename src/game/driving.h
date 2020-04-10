@@ -23,7 +23,7 @@ public:
     // =================================================================
 
 public:
-    virtual double fitness() const override;
+    virtual double fitness() override;
     virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override = 0;
 
     // This function is responsible for the actual driving logic
