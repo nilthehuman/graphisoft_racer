@@ -83,15 +83,13 @@ void Car::bounceBack()
 void Car::steerLeft()
 {
     // Right now steering is even allowed when standing still
-    const double theta = pi * (15. / 180.); // Use an increment of 15 degrees, this can be tuned later
-    mDirection.rotate(theta);
+    mDirection.rotate(15); // Use an increment of 15 degrees, this can be tuned later
 }
 
 void Car::steerRight()
 {
     // Right now steering is even allowed when standing still
-    const double theta = pi * (15. / 180.); // Use an increment of 15 degrees, this can be tuned later
-    mDirection.rotate(-theta);
+    mDirection.rotate(-15); // Use an increment of 15 degrees, this can be tuned later
 }
 
 bool Car::moveOnSurface(Surface surface)
