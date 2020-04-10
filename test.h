@@ -10,6 +10,9 @@
 #include <fstream>
 #include <vector>
 
+const char* emptyMapFilePath = "C:/work/graphisoft_racer/maps/empty.map"; // Adam, relative path please
+const char* doughnutMapFilePath = "C:/work/graphisoft_racer/maps/doughnut.map"; // Adam, relative path please
+
 // ======== Unit tests ========
 
 namespace unitTests
@@ -124,7 +127,7 @@ namespace unitTests
 
         void loadEmptyMapFromFile()
         {
-            std::ifstream mapStream("C:/work/graphisoft_racer/maps/empty.map"); // Adam, relative path please
+            std::ifstream mapStream(emptyMapFilePath);
             const Map mapFromFile(mapStream);
             assert(mapFromFile.mSquares.size() == 4);
             for (size_t i = 0; i < 4; ++i)
@@ -139,7 +142,7 @@ namespace unitTests
 
         void loadDoughnutMapFromFile()
         {
-            std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map"); // Adam, relative path please
+            std::ifstream mapStream(doughnutMapFilePath);
             const Map mapFromFile(mapStream);
             assert(mapFromFile.mSquares.size() == 240); // The rest is Track squares
             assert(mapFromFile[Vector2D(2, 1)] == Surface::Wall);
@@ -227,7 +230,31 @@ namespace unitTests
 
 namespace componentTests
 {
+    void staySafeStayHome()
+    {
+        std::ifstream mapStream(emptyMapFilePath);
+        const Map emptyMap(mapStream);
+        const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
+        Car car(emptyMap, nullStrategy);
+        // Going nowhere at all
+        car.drive();
+        car.drive();
+        car.drive();
+        assert(car.mPrevSquare == Vector2D(0, 0));
+        assert(car.mPosition == Vector2D(0, 0));
+        assert(car.mDirection == emptyMap.mDirection);
+        assert(std::abs(car.mSpeed) < epsilon);
+        for (const auto& footprint : car.mTrajectory)
+        {
+            assert(footprint == Vector2D(0, 0));
+        }
+        assert(car.mCurrentLapTime == 3);
+        assert(car.mLapTimes.empty());
+        assert(!car.mLeftFinishLine);
+    }
+
     void runAll()
     {
+        staySafeStayHome();
     }
 }
