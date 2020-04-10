@@ -1,9 +1,9 @@
 #pragma once
 
-#include "car.h"
-#include "driving.h"
-#include "map.h"
-#include "vector.h"
+#include "../src/game/car.h"
+#include "../src/game/driving.h"
+#include "../src/game/map.h"
+#include "../src/game/vector.h"
 
 #include <cassert>
 #include <cmath>

@@ -1,6 +1,6 @@
-#include "car.h"
-#include "driving.h"
-#include "map.h"
+#include "game/car.h"
+#include "game/driving.h"
+#include "game/map.h"
 #include "../test/test.h"
 
 #include <iostream>
