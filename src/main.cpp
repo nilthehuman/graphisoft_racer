@@ -22,6 +22,7 @@ int main()
     const Race race(map, 3, 1000, 1);
     IDriver::sSelectedRace = &race;
     IDriver& driver = drivers::NascarDriver( genetic::Genome{2, 5} );
+    race.raceWithUI(driver);
 
     genetic::Evolver evolver(&driver, 100);
     evolver.runFor(10);

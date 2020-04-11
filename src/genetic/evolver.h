@@ -24,13 +24,6 @@ protected:
     double mFitness; // Hey, look at that, another member!
 };
 
-//// Interface for the classic Factory design pattern. The Evolver is going to use this
-//class IFactory
-//{
-//public:
-//    template <typename StratT>
-//    virtual IOrganism* create<StratT>(const Genome& genome) const = 0; // Spawn a new organism from the given genome
-//};
 
 // A genetic incubator for fitter and fitter individuals in each generation
 class Evolver
