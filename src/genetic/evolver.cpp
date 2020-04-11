@@ -145,6 +145,8 @@ genetic::IOrganism* genetic::Evolver::mutate(const IOrganism* org) const
     // Determine value to offset the gene by
     const double offset = mGeneGaps[g] * (((mersenne() % 200) / 100.0) - 1.0);
     newGenome[g] += offset;
+    newGenome[g] = std::max(newGenome[g], mMinimumGenes[g]);
+    newGenome[g] = std::min(newGenome[g], mMaximumGenes[g]);
     return mAdam->spawn(newGenome);
 }
 
