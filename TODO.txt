@@ -2,6 +2,7 @@
 * write unit tests for the Evolver!
 * use smart pointers instead of naked pointers
 * change alibi UI to wonderful sherry UI by Adam <3
+* implement "PredeterminedDriver": genes range from 0 to 4, each gene encodes a decision for a tick
 * the Evolver class itself can technically be made an IOrganism and evolved by another Evolver
 * clean up silly nonsense drivers -> less clutter in the source code
 * maybe the Race should store a vector of race times
