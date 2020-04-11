@@ -184,8 +184,9 @@ namespace unitTests
         void createCar()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            const Race race(minimalMap, 10, 1000);
+            const IDriver& nullDriver = drivers::NullDriver();
+            Car car(race, nullDriver);
             assert(car.mPrevSquare == Vector2D(0, 0));
             assert(car.mPosition == Vector2D(0, 0));
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -195,8 +196,9 @@ namespace unitTests
         void throttleAndBrake()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            const Race race(minimalMap, 10, 1000);
+            const IDriver& nullDriver = drivers::NullDriver();
+            Car car(race, nullDriver);
             car.accelerate();
             assert(std::abs(car.mSpeed - 1) < epsilon);
             car.accelerate();
@@ -210,8 +212,9 @@ namespace unitTests
         void steer()
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
-            const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-            Car car(minimalMap, nullStrategy);
+            const Race race(minimalMap, 10, 1000);
+            const IDriver& nullDriver = drivers::NullDriver();
+            Car car(race, nullDriver);
             car.steerLeft();
             car.steerRight();
             assert(car.mDirection == minimalMap.mFinishLineDirection);
@@ -249,77 +252,118 @@ namespace unitTests
 
 namespace componentTests
 {
-    void staySafeStayHome()
+    namespace manualDrivingTests
     {
-        std::ifstream mapStream(emptyMapFilePath);
-        const Map emptyMap(mapStream);
-        const IDrivingStrategy& nullStrategy = sampleDrivingStrategies::NullStrategy();
-        Car car(emptyMap, nullStrategy);
-        // Going nowhere at all
-        car.drive();
-        car.drive();
-        car.drive();
-        assert(car.mPrevSquare == Vector2D(0, 0));
-        assert(car.mPosition == Vector2D(0, 0));
-        assert(car.mDirection == emptyMap.mFinishLineDirection);
-        assert(std::abs(car.mSpeed) < epsilon);
-        for (const auto& footprint : car.mTrajectory)
+        void staySafeStayHome()
         {
-            assert(footprint == Vector2D(0, 0));
+            std::ifstream mapStream(emptyMapFilePath);
+            const Map emptyMap(mapStream);
+            const Race race(emptyMap, 10, 1000);
+            const IDriver& nullDriver = drivers::NullDriver();
+            Car car(race, nullDriver);
+            // Going nowhere at all
+            car.drive();
+            car.drive();
+            car.drive();
+            assert(car.mPrevSquare == Vector2D(0, 0));
+            assert(car.mPosition == Vector2D(0, 0));
+            assert(car.mDirection == emptyMap.mFinishLineDirection);
+            assert(std::abs(car.mSpeed) < epsilon);
+            for (const auto& footprint : car.mTrajectory)
+            {
+                assert(footprint == Vector2D(0, 0));
+            }
+            assert(car.mCurrentLapTime == 3);
+            assert(car.mLapTimes.empty());
+            assert(!car.mLeftFinishLine);
         }
-        assert(car.mCurrentLapTime == 3);
-        assert(car.mLapTimes.empty());
-        assert(!car.mLeftFinishLine);
+
+        void roundAndRoundOnAnEmptyMap()
+        {
+            std::ifstream mapStream(emptyMapFilePath);
+            const Map emptyMap(mapStream);
+            const Race race(emptyMap, 10, 1000);
+            const IDriver& CircleDriver = drivers::CircleDriver();
+            Car car(race, CircleDriver);
+            // Keep steering right with speed == 1
+            for (size_t i = 0; i < 24; ++i)
+            {
+                car.drive();
+            }
+            assert(car.mCurrentLapTime == 0);
+            assert(car.mLapTimes.size() == 1);
+            assert(car.mLapTimes[0] == 24);
+            assert(!car.mLeftFinishLine);
+            for (size_t i = 0; i < 24; ++i)
+            {
+                car.drive();
+            }
+            assert(car.mCurrentLapTime == 0);
+            assert(car.mLapTimes.size() == 2);
+            assert(car.mLapTimes[1] == 24);
+            assert(!car.mLeftFinishLine);
+        }
+
+        void roundAndRoundOnDoughnutMap()
+        {
+            std::ifstream mapStream(doughnutMapFilePath);
+            const Map emptyMap(mapStream);
+            const Race race(emptyMap, 10, 1000);
+            const IDriver& CircleDriver = drivers::CircleDriver();
+            Car car(race, CircleDriver);
+            // Keep steering right with speed == 1
+            for (size_t i = 0; i < 24; ++i)
+            {
+                car.drive();
+            }
+            // Gets stuck against the wall at (9, 12)
+            assert(car.mPrevSquare.rounded() == Vector2D(8, 13));
+            assert(car.mPosition.rounded() == Vector2D(8, 13));
+            assert(car.mCurrentLapTime == 24);
+            assert(car.mLapTimes.empty());
+            assert(car.mLeftFinishLine);
+        }
+
+        void runAll()
+        {
+            staySafeStayHome();
+            roundAndRoundOnAnEmptyMap();
+            roundAndRoundOnDoughnutMap();
+        }
     }
 
-    void roundAndRoundOnAnEmptyMap()
+    namespace racingTests
     {
-        std::ifstream mapStream(emptyMapFilePath);
-        const Map emptyMap(mapStream);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(emptyMap, circleStrategy);
-        // Keep steering right with speed == 1
-        for (size_t i = 0; i < 24; ++i)
+        void winningOnAnEmptyMap()
         {
-            car.drive();
+            std::ifstream mapStream(emptyMapFilePath);
+            const Map emptyMap(mapStream);
+            const Race race(emptyMap, 1, 1000);
+            IDriver& CircleDriver = drivers::CircleDriver();
+            const size_t time = race.race(CircleDriver);
+            assert(time < 25);
         }
-        assert(car.mCurrentLapTime == 0);
-        assert(car.mLapTimes.size() == 1);
-        assert(car.mLapTimes[0] == 24);
-        assert(!car.mLeftFinishLine);
-        for (size_t i = 0; i < 24; ++i)
-        {
-            car.drive();
-        }
-        assert(car.mCurrentLapTime == 0);
-        assert(car.mLapTimes.size() == 2);
-        assert(car.mLapTimes[1] == 24);
-        assert(!car.mLeftFinishLine);
-    }
 
-    void roundAndRoundOnDoughnutMap()
-    {
-        std::ifstream mapStream(doughnutMapFilePath);
-        const Map emptyMap(mapStream);
-        const IDrivingStrategy& circleStrategy = sampleDrivingStrategies::CircleStrategy();
-        Car car(emptyMap, circleStrategy);
-        // Keep steering right with speed == 1
-        for (size_t i = 0; i < 24; ++i)
+        void timeoutOnDoughnutMap()
         {
-            car.drive();
+            std::ifstream mapStream(doughnutMapFilePath);
+            const Map emptyMap(mapStream);
+            const Race race(emptyMap, 10, 1000);
+            IDriver& CircleDriver = drivers::CircleDriver();
+            const size_t time = race.race(CircleDriver);
+            assert(time == race.mTimeout);
         }
-        // Gets stuck against the wall at (9, 12)
-        assert(car.mPrevSquare.rounded() == Vector2D(8, 13));
-        assert(car.mPosition  .rounded() == Vector2D(8, 13));
-        assert(car.mCurrentLapTime == 24);
-        assert(car.mLapTimes.empty());
-        assert(car.mLeftFinishLine);
+
+        void runAll()
+        {
+            winningOnAnEmptyMap();
+            timeoutOnDoughnutMap();
+        }
     }
 
     void runAll()
     {
-        staySafeStayHome();
-        roundAndRoundOnAnEmptyMap();
-        roundAndRoundOnDoughnutMap();
+        manualDrivingTests::runAll();
+        racingTests::runAll();
     }
 }

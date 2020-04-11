@@ -25,12 +25,13 @@ struct Square : public Vector2D
 
 class Car;
 
+// An unbroken racing circuit defined on an integer grid
 struct Map
 {
     Map(const std::vector<Square>& squares);
     Map(std::istream& stream);
 
-    void addCar(Car* car) const;
+    void addCar(Car* car, size_t position = 0) const;
     Surface operator[](const Vector2D& position) const;
 
     // Draw a bounding box around the entire Map.

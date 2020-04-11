@@ -83,12 +83,19 @@ Map::Map(std::istream& stream)
     }
 }
 
-void Map::addCar(Car* car) const
+void Map::addCar(Car* car, size_t position) const
 {
-    const auto finishSquare = std::find_if(mSquares.cbegin(), mSquares.cend(), [](const Square& square) { return square.mSurface == Surface::FinishLine; });
-    assert(finishSquare != mSquares.cend());
-    car->mPrevSquare = { finishSquare->mX, finishSquare->mY };
-    car->mPosition = { finishSquare->mX, finishSquare->mY };
+    for (const Square& square : mSquares)
+    {
+        if (square.mSurface == Surface::FinishLine)
+        {
+            if (!position--)
+            {
+                car->mPrevSquare = { square.mX, square.mY };
+                car->mPosition   = { square.mX, square.mY };
+            }
+        }
+    }
     car->mDirection = mFinishLineDirection;
     car->mSpeed = 0;
     const_cast< Map& >(*this).mCar = car;

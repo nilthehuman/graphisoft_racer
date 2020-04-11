@@ -8,7 +8,9 @@ add_executable(graphisoft_racer
     src/game/car.cpp
     src/game/driving.cpp
     src/game/map.cpp
+    src/game/race.cpp
     src/game/vector.cpp
+    src/genetic/evolver.cpp
     src/main.cpp)
 
 # Ez miert nem mukodik? Mindegy, majd Adam megszereli
