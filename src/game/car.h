@@ -11,6 +11,7 @@ namespace sampleDrivers {
     class NullDriver;
     class ManiacDriver;
     class CircleDriver;
+    class NascarDriver;
 }
 
 namespace unitTests
@@ -79,6 +80,7 @@ private:
     friend class sampleDrivers::NullDriver;
     friend class sampleDrivers::ManiacDriver;
     friend class sampleDrivers::CircleDriver;
+    friend class sampleDrivers::NascarDriver;
 };
 
 std::ostream& operator<<(std::ostream&, const Car&);

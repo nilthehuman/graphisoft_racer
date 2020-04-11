@@ -33,7 +33,7 @@ class Evolver
     // void select(double fraction = 0.3) // Keep the top 30% fittest individuals
     // IOrganism* mutate(IOrganism*)
     // IOrganism* crossover(IOrganism*, IOrganism*)
-    const IOrganism* const mAdam; // The prototype organism
+    const IOrganism* const mAdam; // The prototype organism, acts as a factory for new organisms
     std::vector<IOrganism*> mIndividuals; // The current crop of new organisms
 };
 

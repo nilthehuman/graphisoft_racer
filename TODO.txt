@@ -1,5 +1,6 @@
 ﻿TODO list:
-* create a NascarDriver based on CircleDriver but allow more elliptical trajectory
 * implement Evolver methods of mutation, crossover etc.
 * the Evolver class itself can technically be made an IOrganism and evolved by another Evolver
+* clean up silly nonsense drivers -> less clutter in the source code
 * maybe the Race should store a vector of race times
+* check for memory leaks and plug them

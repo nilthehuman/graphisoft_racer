@@ -26,7 +26,7 @@ public:
     virtual double fitness() override;
     virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override = 0;
 
-    // This function is responsible for the actual driving logic
+    // This function makes the actual driving decisions
     virtual DrivingAction drive(const Car& car) const = 0;
 };
 
@@ -47,6 +47,8 @@ namespace sampleDrivers {
     class ManiacDriver : public IDriver
     {
     public:
+        ManiacDriver(double maxSpeed) : mMaxSpeed(maxSpeed) {}
+
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
         virtual DrivingAction drive(const Car& car) const override;
@@ -61,6 +63,21 @@ namespace sampleDrivers {
     public:
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
-        virtual DrivingAction drive(const Car&) const override;
+        virtual DrivingAction drive(const Car& car) const override;
+    };
+
+    // This guy will try and follow the left wall by steering right
+    class NascarDriver : public IDriver
+    {
+    public:
+        NascarDriver(double maxSpeed, double lookAhead) : mMaxSpeed(maxSpeed), mLookAhead(lookAhead) {}
+
+        virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
+
+        virtual DrivingAction drive(const Car& car) const override;
+
+    private:
+        double mMaxSpeed;
+        double mLookAhead; // Start steering when it gets this close to a wall or gravel pit
     };
 }

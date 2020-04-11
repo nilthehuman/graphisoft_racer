@@ -17,9 +17,10 @@ int main()
 
     std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map");
     const Map map(mapStream);
-    const Race race(map, 3, 1000, 2);
+    const Race race(map, 3, 1000, 1);
     IDriver::sSelectedRace = &race;
-    race.raceWithUI(sampleDrivers::CircleDriver());
+    IDriver& driver = sampleDrivers::NascarDriver(2, 5);
+    race.raceWithUI(driver);
 
     return 0;
 }
