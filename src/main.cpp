@@ -1,11 +1,12 @@
-#include "game/car.h"
-#include "game/driving.h"
 #include "game/map.h"
+#include "game/race.h"
+#include "game/driving.h"
+
+#include "genetic/evolver.h"
+
 #include "../test/test.h"
 
-#include <iostream>
 #include <fstream>
-#include <stdlib.h>
 
 int main()
 {
@@ -18,20 +19,12 @@ int main()
 
     std::ifstream mapStream("C:/work/graphisoft_racer/maps/doughnut.map");
     const Map map(mapStream);
-    Car myCar(map, sampleDrivingStrategies::CircleStrategy(), 'A');
-    std::cout << map;
-    while (true)
-    {
-        myCar.drive();
-        system("cls");
-        std::cout << map;
-        std::cout << "Please press Return or type Q to quit...";
-        const char input = std::getchar();
-        if ('q' == input || 'Q' == input)
-        {
-            break;
-        }
-    }
+    const Race race(map, 3, 1000, 1);
+    IDriver::sSelectedRace = &race;
+    IDriver& driver = drivers::NascarDriver( genetic::Genome{2, 5} );
+
+    genetic::Evolver evolver(&driver, 100);
+    evolver.runFor(10);
 
     return 0;
 }

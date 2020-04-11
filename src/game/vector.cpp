@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <tuple>
+#include <iomanip>
 
 bool Vector2D::operator==(const Vector2D& other) const
 {
@@ -100,6 +101,6 @@ Vector2D& Vector2D::rotate(double degrees)
 
 std::ostream& operator<<(std::ostream& stream, const Vector2D& vec)
 {
-    stream << '(' << vec.mX << ',' << vec.mY << ')';
+    stream << std::setprecision(4) << '(' << vec.mX << ',' << vec.mY << ')';
     return stream;
 }
