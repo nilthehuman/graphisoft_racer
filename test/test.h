@@ -344,7 +344,7 @@ namespace componentTests
             assert(time < 25);
         }
 
-        void timoutOnDoughnutMap()
+        void timeoutOnDoughnutMap()
         {
             std::ifstream mapStream(doughnutMapFilePath);
             const Map emptyMap(mapStream);
@@ -357,7 +357,7 @@ namespace componentTests
         void runAll()
         {
             winningOnAnEmptyMap();
-            timoutOnDoughnutMap();
+            timeoutOnDoughnutMap();
         }
     }
 
