@@ -52,7 +52,7 @@ drivers::ManiacDriver::ManiacDriver(const genetic::Genome& genome)
 genetic::IOrganism* drivers::ManiacDriver::spawn(const genetic::Genome& genome) const
 {
     assert(!genome.empty());
-    ManiacDriver* driver = new ManiacDriver(genome[0]);
+    ManiacDriver* driver = new ManiacDriver(genome);
     assert(0 < driver->mMaxSpeed);
     return driver;
 }
@@ -77,7 +77,7 @@ drivers::CircleDriver::CircleDriver(const genetic::Genome& genome)
 genetic::IOrganism* drivers::CircleDriver::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
-    return new CircleDriver;
+    return new CircleDriver(genome);
 }
 
 DrivingAction drivers::CircleDriver::drive(const Car& car) const
@@ -110,7 +110,7 @@ drivers::NascarDriver::NascarDriver(const genetic::Genome& genome)
 genetic::IOrganism* drivers::NascarDriver::spawn(const genetic::Genome& genome) const
 {
     assert(2 <= genome.size());
-    NascarDriver* driver = new NascarDriver(genome[0], genome[1]);
+    NascarDriver* driver = new NascarDriver(genome);
     assert(0 < driver->mMaxSpeed);
     assert(0 < driver->mLookAhead);
     return driver;
