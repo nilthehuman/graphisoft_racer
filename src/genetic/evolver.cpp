@@ -47,6 +47,16 @@ genetic::Evolver::~Evolver()
     delete mAdam;
 }
 
+void genetic::Evolver::runFor(size_t generations)
+{
+    generateInitialLattice();
+    for (size_t gen = 0; gen < generations; ++gen)
+    {
+        select();
+        repopulate();
+    }
+}
+
 void genetic::Evolver::generateInitialLattice()
 {
     // Generate equidistant individuals in k-dimensional parameter space
@@ -110,14 +120,17 @@ void genetic::Evolver::repopulate()
     while (mIndividuals.size() < mPopulation)
     {
         // Apply a bit of mutation
-        //...
+        const IOrganism* orgA = mIndividuals[ mersenne() % mIndividuals.size() ];
+        mIndividuals.push_back( mutate(orgA) );
+
         // Apply a bit crossover
-        //...
+        const IOrganism* orgB = mIndividuals[ mersenne() % mIndividuals.size() ];
+        mIndividuals.push_back( crossover(orgA, orgB) );
     }
     assert(mIndividuals.size() <= mPopulation + 1);
 }
 
-genetic::IOrganism* genetic::Evolver::mutate(IOrganism* org) const
+genetic::IOrganism* genetic::Evolver::mutate(const IOrganism* org) const
 {
     Genome newGenome = org->getGenome();
     // Pick a random gene
@@ -125,5 +138,25 @@ genetic::IOrganism* genetic::Evolver::mutate(IOrganism* org) const
     // Determine value to offset the gene by
     const double offset = mGeneGaps[g] * (((mersenne() % 200) / 100.0) - 1.0);
     newGenome[g] += offset;
+    return mAdam->spawn(newGenome);
+}
+
+genetic::IOrganism* genetic::Evolver::crossover(const IOrganism* orgA, const IOrganism* orgB) const
+{
+    const Genome& genomeA = orgA->getGenome();
+    const Genome& genomeB = orgB->getGenome();
+    Genome newGenome(genomeA.size());
+    for (size_t g = 0; g < genomeA.size(); ++g)
+    {
+        // Flip a coin on each gene
+        if (mersenne() % 2)
+        {
+            newGenome[g] = genomeA[g];
+        }
+        else
+        {
+            newGenome[g] = genomeB[g];
+        }
+    }
     return mAdam->spawn(newGenome);
 }

@@ -24,8 +24,7 @@ int main()
     IDriver& driver = drivers::NascarDriver( genetic::Genome{2, 5} );
 
     genetic::Evolver evolver(&driver, 100);
-    evolver.generateInitialLattice();
-    evolver.select();
+    evolver.runFor(10);
 
     return 0;
 }

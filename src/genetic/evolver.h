@@ -39,13 +39,15 @@ public:
     Evolver(const IOrganism* adam, size_t population = 1000, double survivalRate = 0.3);
     ~Evolver();
 
+    void runFor(size_t generations);
+
     void generateInitialLattice(); // Initialize population with a lattice of individuals
     void select(double fraction = 0.3); // Keep the top 30% fittest individuals
     void repopulate(); // Fill up the pool of individuals to at most mPopulation
 
 private:
-    IOrganism* mutate(IOrganism*) const; // Semi-randomly mutate a single gene in a single individual
-    IOrganism* crossover(IOrganism*, IOrganism*) const; // Create a third individual by meshing together two different ones
+    IOrganism* mutate(const IOrganism*) const; // Semi-randomly mutate a single gene in a single individual
+    IOrganism* crossover(const IOrganism*, const IOrganism*) const; // Create a third individual by meshing together two different ones
 
 private:
     const IOrganism* const mAdam; // The prototype organism, acts as a factory for new individuals. Note that Adam's genome actually does not matter
