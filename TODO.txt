@@ -1,4 +1,5 @@
 ﻿TODO list:
+* write unit tests for the Evolver!
 * use smart pointers instead of naked pointers
 * the Evolver class itself can technically be made an IOrganism and evolved by another Evolver
 * clean up silly nonsense drivers -> less clutter in the source code

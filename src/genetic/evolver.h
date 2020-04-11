@@ -59,6 +59,8 @@ private:
     const Genome mMinimumGenes; // Lower bounds on each gene
     const Genome mMaximumGenes; // Upper bounds on each gene
     const std::vector<double> mGeneGaps; // Gaps in the initial genome lattice along each dimension
+
+    bool mCutoffWasTooHigh = false; // If true, there were too many gold medallers in the last generation, we had to save them all
 };
 
 }

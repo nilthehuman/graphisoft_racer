@@ -105,25 +105,32 @@ void genetic::Evolver::select(double survivalRate /*= 0.3*/)
 
     // Take the score at the 70th percentile and throw away everyone below
     const double cutoff = fitnessScores[ (size_t)(survivalRate * fitnessScores.size()) ];
+    mCutoffWasTooHigh = false;
+    if (cutoff == fitnessScores[0])
+    {
+        // Massive dead heat. Don't let everybody die
+        mCutoffWasTooHigh = true;
+    }
     const size_t populationBeforeSelection = mIndividuals.size();
     for (const IOrganism* org : mIndividuals)
     {
-        if (org->getFitness() < cutoff + fitnessEpsilon)
+        if (org->getFitness() < cutoff + (mCutoffWasTooHigh ? -1 : 1) * fitnessEpsilon)
         {
             delete org;
         }
     }
     mIndividuals.erase(
-        std::remove_if(mIndividuals.begin(), mIndividuals.end(), [cutoff](const IOrganism* org) { return org->getFitness() < cutoff + fitnessEpsilon; }),
+        std::remove_if(mIndividuals.begin(), mIndividuals.end(),
+            [cutoff, this](const IOrganism* org) { return org->getFitness() < cutoff + (mCutoffWasTooHigh ? -1 : 1) * fitnessEpsilon; }),
         mIndividuals.end()
     );
     const size_t populationAfterSelection = mIndividuals.size();
-    assert(populationAfterSelection < populationBeforeSelection * survivalRate * 1.1);
+    assert(mCutoffWasTooHigh || populationAfterSelection < populationBeforeSelection * survivalRate * 1.1);
 }
 
 void genetic::Evolver::repopulate()
 {
-    assert(mIndividuals.size() <= mSurvivalRate * mPopulation);
+    assert(mCutoffWasTooHigh || mIndividuals.size() <= mSurvivalRate * mPopulation);
     while (mIndividuals.size() < mPopulation)
     {
         // Apply a bit of mutation
