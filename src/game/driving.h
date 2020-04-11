@@ -32,7 +32,7 @@ public:
 
 // ======== Sample drivers, wheeeeee! ========
 
-namespace sampleDrivers {
+namespace drivers {
 
     // This one fell asleep at the start
     class NullDriver : public IDriver

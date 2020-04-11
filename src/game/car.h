@@ -7,7 +7,7 @@
 
 class IDriver;
 
-namespace sampleDrivers {
+namespace drivers {
     class NullDriver;
     class ManiacDriver;
     class CircleDriver;
@@ -77,10 +77,10 @@ private:
     friend void componentTests::staySafeStayHome();
     friend void componentTests::roundAndRoundOnAnEmptyMap();
     friend void componentTests::roundAndRoundOnDoughnutMap();
-    friend class sampleDrivers::NullDriver;
-    friend class sampleDrivers::ManiacDriver;
-    friend class sampleDrivers::CircleDriver;
-    friend class sampleDrivers::NascarDriver;
+    friend class drivers::NullDriver;
+    friend class drivers::ManiacDriver;
+    friend class drivers::CircleDriver;
+    friend class drivers::NascarDriver;
 };
 
 std::ostream& operator<<(std::ostream&, const Car&);

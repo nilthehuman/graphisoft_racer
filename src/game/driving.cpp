@@ -16,18 +16,18 @@ double IDriver::fitness()
 
 // =================================================================
 
-genetic::IOrganism* sampleDrivers::NullDriver::spawn(const genetic::Genome& car) const
+genetic::IOrganism* drivers::NullDriver::spawn(const genetic::Genome& car) const
 {
     // No parameters to configure
     return new NullDriver;
 }
 
-DrivingAction sampleDrivers::NullDriver::drive(const Car&) const
+DrivingAction drivers::NullDriver::drive(const Car&) const
 {
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivers::ManiacDriver::spawn(const genetic::Genome& genome) const
+genetic::IOrganism* drivers::ManiacDriver::spawn(const genetic::Genome& genome) const
 {
     assert(!genome.empty());
     ManiacDriver* driver = new ManiacDriver(genome[0]);
@@ -35,7 +35,7 @@ genetic::IOrganism* sampleDrivers::ManiacDriver::spawn(const genetic::Genome& ge
     return driver;
 }
 
-DrivingAction sampleDrivers::ManiacDriver::drive(const Car& car) const
+DrivingAction drivers::ManiacDriver::drive(const Car& car) const
 {
     if (car.mSpeed < mMaxSpeed)
     {
@@ -44,13 +44,13 @@ DrivingAction sampleDrivers::ManiacDriver::drive(const Car& car) const
     return DrivingAction::KeepGoing;
 };
 
-genetic::IOrganism* sampleDrivers::CircleDriver::spawn(const genetic::Genome& genome) const
+genetic::IOrganism* drivers::CircleDriver::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
     return new CircleDriver;
 }
 
-DrivingAction sampleDrivers::CircleDriver::drive(const Car& car) const
+DrivingAction drivers::CircleDriver::drive(const Car& car) const
 {
     // Prefer using the Car's state to keeping a bool in this class
     if (car.mSpeed < epsilon)
@@ -61,7 +61,7 @@ DrivingAction sampleDrivers::CircleDriver::drive(const Car& car) const
     return DrivingAction::SteerRight;
 };
 
-genetic::IOrganism* sampleDrivers::NascarDriver::spawn(const genetic::Genome& genome) const
+genetic::IOrganism* drivers::NascarDriver::spawn(const genetic::Genome& genome) const
 {
     assert(2 <= genome.size());
     NascarDriver* driver = new NascarDriver(genome[0], genome[1]);
@@ -70,7 +70,7 @@ genetic::IOrganism* sampleDrivers::NascarDriver::spawn(const genetic::Genome& ge
     return driver;
 }
 
-DrivingAction sampleDrivers::NascarDriver::drive(const Car& car) const
+DrivingAction drivers::NascarDriver::drive(const Car& car) const
 {
     // Our most advanced driving logic so far...
     for (double i = 1; i < mLookAhead; ++i)

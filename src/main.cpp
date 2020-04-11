@@ -19,7 +19,7 @@ int main()
     const Map map(mapStream);
     const Race race(map, 3, 1000, 1);
     IDriver::sSelectedRace = &race;
-    IDriver& driver = sampleDrivers::NascarDriver(2, 5);
+    IDriver& driver = drivers::NascarDriver(2, 5);
     race.raceWithUI(driver);
 
     return 0;

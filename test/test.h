@@ -185,7 +185,7 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            const IDriver& nullDriver = drivers::NullDriver();
             Car car(race, nullDriver);
             assert(car.mPrevSquare == Vector2D(0, 0));
             assert(car.mPosition == Vector2D(0, 0));
@@ -197,7 +197,7 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            const IDriver& nullDriver = drivers::NullDriver();
             Car car(race, nullDriver);
             car.accelerate();
             assert(std::abs(car.mSpeed - 1) < epsilon);
@@ -213,7 +213,7 @@ namespace unitTests
         {
             const Map minimalMap({ Square(0, 0, Surface::FinishLine) });
             const Race race(minimalMap, 10, 1000);
-            const IDriver& nullDriver = sampleDrivers::NullDriver();
+            const IDriver& nullDriver = drivers::NullDriver();
             Car car(race, nullDriver);
             car.steerLeft();
             car.steerRight();
@@ -257,7 +257,7 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDriver& nullDriver = sampleDrivers::NullDriver();
+        const IDriver& nullDriver = drivers::NullDriver();
         Car car(race, nullDriver);
         // Going nowhere at all
         car.drive();
@@ -281,7 +281,7 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        const IDriver& CircleDriver = drivers::CircleDriver();
         Car car(race, CircleDriver);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
@@ -307,7 +307,7 @@ namespace componentTests
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        const IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        const IDriver& CircleDriver = drivers::CircleDriver();
         Car car(race, CircleDriver);
         // Keep steering right with speed == 1
         for (size_t i = 0; i < 24; ++i)
@@ -327,7 +327,7 @@ namespace componentTests
         std::ifstream mapStream(emptyMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 1, 1000);
-        IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        IDriver& CircleDriver = drivers::CircleDriver();
         const size_t time = race.race(CircleDriver);
         assert(time < 25);
     }
@@ -337,7 +337,7 @@ namespace componentTests
         std::ifstream mapStream(doughnutMapFilePath);
         const Map emptyMap(mapStream);
         const Race race(emptyMap, 10, 1000);
-        IDriver& CircleDriver = sampleDrivers::CircleDriver();
+        IDriver& CircleDriver = drivers::CircleDriver();
         const size_t time = race.race(CircleDriver);
         assert(time == race.mTimeout);
     }
