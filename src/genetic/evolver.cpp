@@ -52,7 +52,7 @@ void genetic::Evolver::runFor(size_t generations)
     generateInitialLattice();
     for (size_t gen = 0; gen < generations; ++gen)
     {
-        select();
+        select(mSurvivalRate);
         repopulate();
     }
 }
@@ -106,8 +106,15 @@ void genetic::Evolver::select(double survivalRate /*= 0.3*/)
     // Take the score at the 70th percentile and throw away everyone below
     const double cutoff = fitnessScores[ (size_t)(survivalRate * fitnessScores.size()) ];
     const size_t populationBeforeSelection = mIndividuals.size();
+    for (const IOrganism* org : mIndividuals)
+    {
+        if (org->getFitness() < cutoff + fitnessEpsilon)
+        {
+            delete org;
+        }
+    }
     mIndividuals.erase(
-        std::remove_if(mIndividuals.begin(), mIndividuals.end(), [cutoff](const IOrganism* o) { return o->getFitness() < cutoff + fitnessEpsilon; }),
+        std::remove_if(mIndividuals.begin(), mIndividuals.end(), [cutoff](const IOrganism* org) { return org->getFitness() < cutoff + fitnessEpsilon; }),
         mIndividuals.end()
     );
     const size_t populationAfterSelection = mIndividuals.size();

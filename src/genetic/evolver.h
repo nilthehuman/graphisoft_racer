@@ -42,7 +42,7 @@ public:
     void runFor(size_t generations);
 
     void generateInitialLattice(); // Initialize population with a lattice of individuals
-    void select(double fraction = 0.3); // Keep the top 30% fittest individuals
+    void select(double survivalRate = 0.3); // Keep the top 30% fittest individuals
     void repopulate(); // Fill up the pool of individuals to at most mPopulation
 
 private:
