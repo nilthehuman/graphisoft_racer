@@ -4,3 +4,5 @@
 * clean up silly nonsense drivers -> less clutter in the source code
 * maybe the Race should store a vector of race times
 * check for memory leaks and plug them
+* store the Evolver's current organisms on the stack somehow?
+* any kind of performance tuning, really

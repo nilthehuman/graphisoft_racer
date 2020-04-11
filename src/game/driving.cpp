@@ -6,26 +6,48 @@
 
 const Race* IDriver::sSelectedRace = nullptr;
 
-double IDriver::fitness()
+double IDriver::measureFitness()
 {
     assert(sSelectedRace);
     // Get a car and step on that throttle
+    // Substitute sSelectedRace->raceWithUI(*this) here if you want to see what's happening
     const size_t time = sSelectedRace->race(*this);
-    return (double)(-1 * time); // Negate time to get a fitness score
+    mFitness = -1.0 * time; // Negate time to get a fitness score
+    return mFitness;
 }
 
 // =================================================================
 
-genetic::IOrganism* drivers::NullDriver::spawn(const genetic::Genome& car) const
+drivers::NullDriver::NullDriver(const genetic::Genome& genome)
+    : NullDriver()
+{
+    const_cast<genetic::Genome&>(mGenome) = genome;
+}
+
+genetic::IOrganism* drivers::NullDriver::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
-    return new NullDriver;
+    return new NullDriver(genome);
 }
 
 DrivingAction drivers::NullDriver::drive(const Car&) const
 {
     return DrivingAction::KeepGoing;
 };
+
+// =================================================================
+
+drivers::ManiacDriver::ManiacDriver(double maxSpeed)
+    : mMaxSpeed(maxSpeed)
+{
+    assert(0 < mMaxSpeed);
+}
+
+drivers::ManiacDriver::ManiacDriver(const genetic::Genome& genome)
+    : ManiacDriver(genome[0])
+{
+    const_cast<genetic::Genome&>(mGenome) = genome;
+}
 
 genetic::IOrganism* drivers::ManiacDriver::spawn(const genetic::Genome& genome) const
 {
@@ -44,6 +66,14 @@ DrivingAction drivers::ManiacDriver::drive(const Car& car) const
     return DrivingAction::KeepGoing;
 };
 
+// =================================================================
+
+drivers::CircleDriver::CircleDriver(const genetic::Genome& genome)
+    : CircleDriver()
+{
+    const_cast<genetic::Genome&>(mGenome) = genome;
+}
+
 genetic::IOrganism* drivers::CircleDriver::spawn(const genetic::Genome& genome) const
 {
     // No parameters to configure
@@ -60,6 +90,22 @@ DrivingAction drivers::CircleDriver::drive(const Car& car) const
     // Steer right forever
     return DrivingAction::SteerRight;
 };
+
+// =================================================================
+
+drivers::NascarDriver::NascarDriver(double maxSpeed, double lookAhead)
+    : mMaxSpeed(maxSpeed)
+    , mLookAhead(lookAhead)
+{
+    assert(0 < mMaxSpeed);
+    assert(0 < mLookAhead);
+}
+
+drivers::NascarDriver::NascarDriver(const genetic::Genome& genome)
+    : NascarDriver(genome[0], genome[1])
+{
+    const_cast< genetic::Genome& >(mGenome) = genome;
+}
 
 genetic::IOrganism* drivers::NascarDriver::spawn(const genetic::Genome& genome) const
 {

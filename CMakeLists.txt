@@ -10,6 +10,7 @@ add_executable(graphisoft_racer
     src/game/map.cpp
     src/game/race.cpp
     src/game/vector.cpp
+    src/genetic/evolver.cpp
     src/main.cpp)
 
 # Ez miert nem mukodik? Mindegy, majd Adam megszereli

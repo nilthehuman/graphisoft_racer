@@ -23,8 +23,7 @@ public:
     // =================================================================
 
 public:
-    virtual double fitness() override;
-    virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override = 0;
+    virtual double measureFitness() override;
 
     // This function makes the actual driving decisions
     virtual DrivingAction drive(const Car& car) const = 0;
@@ -38,6 +37,9 @@ namespace drivers {
     class NullDriver : public IDriver
     {
     public:
+        NullDriver() = default;
+        NullDriver(const genetic::Genome& genome);
+
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
         virtual DrivingAction drive(const Car&) const override;
@@ -47,20 +49,26 @@ namespace drivers {
     class ManiacDriver : public IDriver
     {
     public:
-        ManiacDriver(double maxSpeed) : mMaxSpeed(maxSpeed) {}
+        ManiacDriver(double maxSpeed);
+        ManiacDriver(const genetic::Genome& genome);
 
+        virtual const genetic::Genome getMinimumGenes() const override { return { /*mMaxSpeed =*/  1 }; }
+        virtual const genetic::Genome getMaximumGenes() const override { return { /*mMaxSpeed =*/ 10 }; }
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
         virtual DrivingAction drive(const Car& car) const override;
 
     private:
-        double mMaxSpeed;
+        const double mMaxSpeed;
     };
 
     // This Driver will keep steering right and hope for the best
     class CircleDriver : public IDriver
     {
     public:
+        CircleDriver() = default;
+        CircleDriver(const genetic::Genome& genome);
+
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
         virtual DrivingAction drive(const Car& car) const override;
@@ -70,14 +78,18 @@ namespace drivers {
     class NascarDriver : public IDriver
     {
     public:
-        NascarDriver(double maxSpeed, double lookAhead) : mMaxSpeed(maxSpeed), mLookAhead(lookAhead) {}
+        NascarDriver(double maxSpeed, double lookAhead);
+        NascarDriver(const genetic::Genome& genome);
+
+        virtual const genetic::Genome getMinimumGenes() const override { return { /*mMaxSpeed =*/  1,  /*mLookAhead =*/ 1 }; }
+        virtual const genetic::Genome getMaximumGenes() const override { return { /*mMaxSpeed =*/ 10, /*mLookAhead =*/ 20 }; }
 
         virtual genetic::IOrganism* spawn(const genetic::Genome& genome) const override;
 
         virtual DrivingAction drive(const Car& car) const override;
 
     private:
-        double mMaxSpeed;
-        double mLookAhead; // Start steering when it gets this close to a wall or gravel pit
+        const double mMaxSpeed;
+        const double mLookAhead; // Start steering when it gets this close to a wall or gravel pit
     };
 }

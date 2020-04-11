@@ -1,7 +1,9 @@
-#include "game/car.h"
-#include "game/driving.h"
 #include "game/map.h"
 #include "game/race.h"
+#include "game/driving.h"
+
+#include "genetic/evolver.h"
+
 #include "../test/test.h"
 
 #include <fstream>
@@ -19,8 +21,11 @@ int main()
     const Map map(mapStream);
     const Race race(map, 3, 1000, 1);
     IDriver::sSelectedRace = &race;
-    IDriver& driver = drivers::NascarDriver(2, 5);
-    race.raceWithUI(driver);
+    IDriver& driver = drivers::NascarDriver( genetic::Genome{2, 5} );
+
+    genetic::Evolver evolver(&driver, 100);
+    evolver.generateInitialLattice();
+    evolver.select();
 
     return 0;
 }
