@@ -26,9 +26,12 @@ namespace unitTests
 
 namespace componentTests
 {
-    void staySafeStayHome();
-    void roundAndRoundOnAnEmptyMap();
-    void roundAndRoundOnDoughnutMap();
+    namespace manualDrivingTests
+    {
+        void staySafeStayHome();
+        void roundAndRoundOnAnEmptyMap();
+        void roundAndRoundOnDoughnutMap();
+    }
 }
 
 // ======== Here comes the real stuff ========
@@ -74,9 +77,9 @@ private:
     friend void unitTests::CarTests::createCar();
     friend void unitTests::CarTests::throttleAndBrake();
     friend void unitTests::CarTests::steer();
-    friend void componentTests::staySafeStayHome();
-    friend void componentTests::roundAndRoundOnAnEmptyMap();
-    friend void componentTests::roundAndRoundOnDoughnutMap();
+    friend void componentTests::manualDrivingTests::staySafeStayHome();
+    friend void componentTests::manualDrivingTests::roundAndRoundOnAnEmptyMap();
+    friend void componentTests::manualDrivingTests::roundAndRoundOnDoughnutMap();
     friend class drivers::NullDriver;
     friend class drivers::ManiacDriver;
     friend class drivers::CircleDriver;
