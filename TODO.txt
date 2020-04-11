@@ -1,5 +1,5 @@
 ﻿TODO list:
-* implement Evolver methods of mutation, crossover etc.
+* use smart pointers instead of naked pointers
 * the Evolver class itself can technically be made an IOrganism and evolved by another Evolver
 * clean up silly nonsense drivers -> less clutter in the source code
 * maybe the Race should store a vector of race times
